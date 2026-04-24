@@ -35,17 +35,23 @@ export function Nav() {
   }, [mobileOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-[color:var(--color-olive)]/85 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-50 bg-[color:var(--color-olive)]/90 backdrop-blur">
       <nav
-        className="relative mx-auto flex h-20 max-w-[1600px] items-center justify-center px-6 md:px-12"
+        className="relative mx-auto flex h-[88px] max-w-[1600px] items-center justify-center px-6 md:h-[112px] md:px-12"
         aria-label="Primary"
       >
         <Link
           href="/"
-          className="block text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
+          className="flex items-center text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
           aria-label="STATION8 Public Market home"
         >
-          <Lockup tone="light" width={200} priority />
+          {/* Mobile: compact lockup; desktop: prominent */}
+          <span className="md:hidden">
+            <Lockup tone="light" height={56} priority />
+          </span>
+          <span className="hidden md:inline">
+            <Lockup tone="light" height={80} priority />
+          </span>
         </Link>
 
         <button

@@ -29,8 +29,12 @@ const LINKS = [
   { label: "CONTACT", href: "#contact" },
 ];
 
-/** Top-nav height so the sticky bar parks flush under it. */
-const TOP_NAV_HEIGHT = 80;
+/**
+ * Top-nav height so the sticky bar parks flush under it.
+ * Matches the mobile/desktop nav heights in `features/nav/Nav.tsx`.
+ */
+const TOP_NAV_HEIGHT_MOBILE = 88;
+const TOP_NAV_HEIGHT_DESKTOP = 112;
 
 export function SectionNav() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -40,15 +44,19 @@ export function SectionNav() {
     const el = barRef.current;
     if (!el) return;
 
+    const navHeight = () =>
+      window.matchMedia("(min-width: 768px)").matches
+        ? TOP_NAV_HEIGHT_DESKTOP
+        : TOP_NAV_HEIGHT_MOBILE;
+
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
         const rect = el.getBoundingClientRect();
-        // When the bar is parked at top:80 it's "stuck".
         // Allow 1px tolerance for subpixel rendering.
-        setStuck(rect.top <= TOP_NAV_HEIGHT + 1);
+        setStuck(rect.top <= navHeight() + 1);
         ticking = false;
       });
     };
@@ -65,8 +73,7 @@ export function SectionNav() {
     <div
       ref={barRef}
       data-stuck={stuck ? "true" : "false"}
-      className="sticky z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-shadow duration-[var(--duration-base)] ease-[var(--ease-precise)] data-[stuck=true]:shadow-[0_6px_24px_rgba(0,0,0,0.22)]"
-      style={{ top: TOP_NAV_HEIGHT }}
+      className="sticky top-[88px] md:top-[112px] z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-shadow duration-[var(--duration-base)] ease-[var(--ease-precise)] data-[stuck=true]:shadow-[0_6px_24px_rgba(0,0,0,0.22)]"
     >
       <div className="relative text-[color:var(--color-sand-stone)]">
         <PatternTint />
