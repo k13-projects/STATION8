@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/design-system/primitives/Button";
 import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
+import { SectionChevron } from "@/design-system/primitives/SectionChevron";
 import { SectionLabel } from "@/design-system/primitives/SectionLabel";
 import { Body, DisplayLG, DisplayXL, H1, MonoLabel } from "@/design-system/primitives/Typography";
 import { Footer } from "@/features/contact/Footer";
@@ -82,15 +83,8 @@ export default function Home() {
               </Body>
             </Reveal>
           </div>
-          {/* Chevron transition into the next section */}
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 120 40"
-            className="absolute bottom-0 left-1/2 h-8 w-28 -translate-x-1/2 translate-y-[1px] text-[color:var(--color-sand-stone)]"
-            preserveAspectRatio="none"
-          >
-            <polygon points="0,0 120,0 60,40" fill="currentColor" />
-          </svg>
+          {/* Chevron — tagline (Sand Stone) pokes down into Who We Are (Olive) */}
+          <SectionChevron tone="sand-stone" size="md" />
         </section>
 
         {/* ── 4. WHO WE ARE ── */}
@@ -170,6 +164,8 @@ export default function Home() {
               ))}
             </div>
           </div>
+          {/* Chevron — Our Vendors (Sand Stone) pokes down into Events (Olive) */}
+          <SectionChevron tone="sand-stone" size="md" />
         </section>
 
         {/* ── 7. EVENTS ── */}
