@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PSMBadgeCoinFlip } from "@/design-system/icons/PSMBadgeCoinFlip";
 import { Button } from "@/design-system/primitives/Button";
-import { MonoCaption, MonoLabel } from "@/design-system/primitives/Typography";
+import { MonoCaption } from "@/design-system/primitives/Typography";
 import type { Vendor } from "./vendors";
 
 /**
@@ -41,9 +41,11 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
       </div>
 
       <div className="mt-5 flex flex-col items-center gap-3">
-        <MonoLabel className="font-[family-name:var(--font-display)] text-[length:var(--text-h3)] uppercase tracking-wide text-[color:var(--color-dark-bark)]">
-          {vendor.name}
-        </MonoLabel>
+        <h3 className="flex items-center justify-center gap-2.5 font-[family-name:var(--font-sans)] text-[1.0625rem] font-bold uppercase leading-tight tracking-[0.06em] text-[color:var(--color-dark-bark)]">
+          <CrosshairMark />
+          <span>{vendor.name}</span>
+          <CrosshairMark />
+        </h3>
         <Button
           href={`#vendor-${vendor.slug}`}
           variant="primary"
@@ -54,5 +56,30 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
         </Button>
       </div>
     </article>
+  );
+}
+
+/**
+ * CrosshairMark — a miniature of the PSM badge's circle-with-crosshair motif,
+ * used as a typographic ornament around vendor names. Three strokes on a
+ * 14-unit canvas: a centered circle and two axis lines that extend past it.
+ * Picks up its color from the parent via `currentColor`.
+ */
+function CrosshairMark() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 14 14"
+      width="11"
+      height="11"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="0.9"
+      className="shrink-0 text-[color:var(--color-olive)]"
+    >
+      <circle cx="7" cy="7" r="4.2" />
+      <line x1="7" y1="0.5" x2="7" y2="13.5" />
+      <line x1="0.5" y1="7" x2="13.5" y2="7" />
+    </svg>
   );
 }
