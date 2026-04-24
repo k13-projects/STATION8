@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────
+ * STATION8 design tokens
+ * Colors from IDENTITY brand standards (Basile / Landmark)
+ * Type scale 1.333 (perfect fourth), 16px base
+ * Motion tokens — decisive easings, not defaults
+ * ───────────────────────────────────────────────────────── */
+@theme {
+  /* ── Color — Primary ── */
+  --color-olive: #5e6738;
+  --color-green-glass: #5c7f71;
+  --color-spice: #674736;
+  --color-dark-bark: #31261d;
+
+  /* ── Color — Neutrals ── */
+  --color-black: #000000;
+  --color-may: #d9d9d6;
+  --color-rust: #864a33;
+  --color-sand-stone: #ddcba4;
+  --color-white: #ffffff;
+
+  /* ── Color — Accents (use sparingly) ── */
+  --color-salmon: #dc4405;
+  --color-sea-glass: #b6cfd0;
+  --color-river-stone: #53565a;
+
+  /* ── Semantic aliases ── */
+  --color-bg-default: var(--color-dark-bark);
+  --color-bg-paper: var(--color-sand-stone);
+  --color-bg-garden: var(--color-olive);
+  --color-ink-primary: var(--color-sand-stone);
+  --color-ink-inverse: var(--color-dark-bark);
+  --color-rule: color-mix(in oklch, var(--color-sand-stone) 30%, transparent);
+
+  /* ── Typography — families (fallbacks live until Nitti + Industry licenses clear) ── */
+  --font-mono: "Nitti Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Nitti Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Industry Inc Base", "Big Shoulders Stencil", "Oswald", Impact, sans-serif;
+  --font-display-outline:
+    "Industry Inc Outline", "Big Shoulders Stencil Text", "Oswald", sans-serif;
+  --font-display-cutline: "Industry Inc Cutline", "Big Shoulders Stencil", "Oswald", sans-serif;
+
+  /* ── Typography — scale (1.333 modular) ── */
+  --text-mono-caption: 0.6875rem; /* 11px */
+  --text-mono-label: 0.8125rem; /* 13px */
+  --text-body: 1rem; /* 16px */
+  --text-h3: 1.25rem;
+  --text-h2: 1.75rem;
+  --text-h1: 2.25rem;
+  --text-display-md: 3rem;
+  --text-display-lg: 4.75rem;
+  --text-display-xl: 7.5rem;
+
+  /* ── Spacing — 8px base ── */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-48: 12rem;
+  --spacing-64: 16rem;
+
+  /* ── Radii ── */
+  --radius-none: 0;
+  --radius-sharp: 2px;
+  --radius-pill: 9999px;
+  /* Arch: full round on top, sharp on bottom. Use with utility class .rounded-arch */
+
+  /* ── Motion tokens ── */
+  --duration-fast: 180ms;
+  --duration-base: 420ms;
+  --duration-slow: 900ms;
+  --duration-epic: 1800ms;
+  --ease-precise: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --ease-unhurried: cubic-bezier(0.65, 0, 0.35, 1);
+  --stagger-default: 40ms;
+  --stagger-loose: 90ms;
+}
+
+/* Arch card utility — semicircular top, square bottom */
+@utility rounded-arch {
+  border-radius: 9999px 9999px 0 0;
+}
+
+/* Monospace caption utility with uppercase + wide tracking */
+@utility mono-caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── Base resets & typography defaults ── */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-bg-default);
+  color: var(--color-ink-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+/* Reduced motion: disable animations except opacity + color */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection — Olive ink on Sand Stone */
+::selection {
+  background: var(--color-sand-stone);
+  color: var(--color-dark-bark);
+}
