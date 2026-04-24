@@ -34,7 +34,7 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
         ) : (
           <div className="relative flex h-full w-full flex-col items-center justify-center gap-4 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]">
             <PatternOverlay opacity={0.22} size={180} />
-            <PSMBadge size={68} className="relative text-[color:var(--color-sand-stone)]" />
+            <PSMBadge size={68} tone="light" className="relative" />
             <MonoCaption className="relative text-[color:var(--color-sand-stone)]/85">
               Arriving Soon
             </MonoCaption>
