@@ -154,3 +154,36 @@ body {
   background: var(--color-sand-stone);
   color: var(--color-dark-bark);
 }
+
+/* ── Learn More modal — gentle fade + lift on open ── */
+.learn-more-dialog,
+.learn-more-dialog::backdrop {
+  transition:
+    opacity 220ms var(--ease-precise),
+    transform 220ms var(--ease-precise),
+    overlay 220ms var(--ease-precise) allow-discrete,
+    display 220ms var(--ease-precise) allow-discrete;
+}
+.learn-more-dialog {
+  opacity: 0;
+  transform: translateY(10px) scale(0.985);
+}
+.learn-more-dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.learn-more-dialog::backdrop {
+  opacity: 0;
+}
+.learn-more-dialog[open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  .learn-more-dialog[open] {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  .learn-more-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}

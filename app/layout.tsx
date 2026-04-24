@@ -74,7 +74,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable}`}>
-      <body>
+      {/* suppressHydrationWarning silences the false hydration diff caused by
+          browser extensions (Grammarly, LastPass, etc.) that inject attributes
+          onto <body> after SSR. It applies only to this element — real app
+          hydration mismatches elsewhere still surface normally. */}
+      <body suppressHydrationWarning>
         <MotionPreferenceProvider>
           <SectionColorMorph />
           {children}

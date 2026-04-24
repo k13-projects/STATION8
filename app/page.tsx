@@ -4,6 +4,7 @@ import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
 import { SectionChevron } from "@/design-system/primitives/SectionChevron";
 import { SectionLabel } from "@/design-system/primitives/SectionLabel";
 import { Body, DisplayLG, DisplayXL, H1, MonoLabel } from "@/design-system/primitives/Typography";
+import { LearnMoreModal } from "@/features/about-modal/LearnMoreModal";
 import { Footer } from "@/features/contact/Footer";
 import { EventDateCard } from "@/features/events/EventDateCard";
 import { Nav } from "@/features/nav/Nav";
@@ -124,15 +125,7 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.7}>
               <div className="mt-12 flex justify-center">
-                <Magnetic>
-                  <Button
-                    href="/about"
-                    variant="primary"
-                    className="!rounded-full !bg-[color:var(--color-sand-stone)] !text-[color:var(--color-dark-bark)] !border-[color:var(--color-sand-stone)] hover:!bg-white"
-                  >
-                    Learn More
-                  </Button>
-                </Magnetic>
+                <LearnMoreModal />
               </div>
             </Reveal>
           </div>
