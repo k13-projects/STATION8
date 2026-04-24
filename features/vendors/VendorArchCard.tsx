@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { PSMBadge } from "@/design-system/icons/PSMBadge";
+import { PSMBadgeCoinFlip } from "@/design-system/icons/PSMBadgeCoinFlip";
 import { Button } from "@/design-system/primitives/Button";
-import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
 import { MonoCaption, MonoLabel } from "@/design-system/primitives/Typography";
 import type { Vendor } from "./vendors";
 
@@ -9,8 +8,8 @@ import type { Vendor } from "./vendors";
  * VendorArchCard — one tile in the 3×3 Our Vendors grid.
  *
  * Full-color photo when the vendor has one; otherwise an "ARRIVING SOON"
- * card tinted with the STATION8 pattern and centered on the PSM mini-badge.
- * Matches the arch silhouette and See More CTA from the brief.
+ * card on solid Olive with the PSM mini-badge centered. No pattern — the
+ * cards stay clean per stakeholder direction.
  */
 
 export function VendorArchCard({ vendor }: { vendor: Vendor }) {
@@ -33,9 +32,8 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
           />
         ) : (
           <div className="relative flex h-full w-full flex-col items-center justify-center gap-4 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]">
-            <PatternOverlay opacity={0.22} size={180} />
-            <PSMBadge size={68} tone="light" className="relative" />
-            <MonoCaption className="relative text-[color:var(--color-sand-stone)]/85">
+            <PSMBadgeCoinFlip size={68} tone="light" />
+            <MonoCaption className="text-[color:var(--color-sand-stone)]/85">
               Arriving Soon
             </MonoCaption>
           </div>

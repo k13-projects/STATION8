@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { PSMBadgeAnimated } from "@/design-system/icons/PSMBadgeAnimated";
-import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
 import { Body, H1, MonoCaption, MonoLabel } from "@/design-system/primitives/Typography";
 import { MotionToggle } from "./MotionToggle";
 
 /**
  * Footer / CONTACT US — the final section from the brief.
- * Olive background with the STATION8 pattern, big PSM badge on the left,
+ * Olive background with a big PSM badge on the left,
  * LET'S CONNECT heading and inquiry links on the right.
  */
 
@@ -23,10 +22,6 @@ export function Footer() {
       data-section-bg="--color-olive"
       className="relative overflow-hidden bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]"
     >
-      <div className="text-[color:var(--color-sand-stone)]">
-        <PatternOverlay opacity={0.14} size={260} />
-      </div>
-
       <div className="relative mx-auto grid max-w-[1400px] items-center gap-12 px-6 py-20 md:grid-cols-[1fr_1.2fr] md:px-12 md:py-28">
         <div className="flex items-center justify-center md:justify-start">
           <PSMBadgeAnimated size={240} delay={0.1} />

@@ -84,7 +84,7 @@ export default function Home() {
             </Reveal>
           </div>
           {/* Chevron — tagline (Sand Stone) pokes down into Who We Are (Olive) */}
-          <SectionChevron tone="sand-stone" size="md" />
+          <SectionChevron tone="sand-stone" size="sm" />
         </section>
 
         {/* ── 4. WHO WE ARE ── */}
@@ -94,7 +94,7 @@ export default function Home() {
           className="relative overflow-hidden bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]"
         >
           <div className="text-[color:var(--color-sand-stone)]">
-            <PatternOverlay opacity={0.14} size={160} />
+            <PatternOverlay opacity={0.08} size={853} position="50% 50%" />
           </div>
           <div className="relative mx-auto max-w-[1100px] px-6 py-24 text-center md:px-12 md:py-36">
             <Reveal>
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
           </div>
           {/* Chevron — Our Vendors (Sand Stone) pokes down into Events (Olive) */}
-          <SectionChevron tone="sand-stone" size="md" />
+          <SectionChevron tone="sand-stone" size="sm" />
         </section>
 
         {/* ── 7. EVENTS ── */}
@@ -175,7 +175,7 @@ export default function Home() {
           className="relative overflow-hidden bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]"
         >
           <div className="text-[color:var(--color-sand-stone)]">
-            <PatternOverlay opacity={0.16} size={420} />
+            <PatternOverlay opacity={0.08} cover position="50% 50%" />
           </div>
           <div className="relative mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
