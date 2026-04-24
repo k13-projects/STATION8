@@ -327,7 +327,7 @@ function Divider({ src, alt }: { src: string; alt: string }) {
   return (
     <div
       aria-hidden="false"
-      className="relative h-[60svh] min-h-[360px] w-full overflow-hidden bg-[color:var(--color-dark-bark)]"
+      className="relative h-[55svh] min-h-[480px] w-full overflow-hidden bg-[color:var(--color-dark-bark)]"
     >
       <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: "cover" }} />
     </div>
