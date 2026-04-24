@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { PSMBadge } from "@/design-system/icons/PSMBadge";
+import { PSMBadgeAnimated } from "@/design-system/icons/PSMBadgeAnimated";
 import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
 import { Body, H3, MonoCaption, MonoLabel } from "@/design-system/primitives/Typography";
+import { MotionToggle } from "./MotionToggle";
 
 /**
  * Site footer / Contact section.
@@ -26,7 +27,7 @@ export function Footer() {
       </div>
       <div className="relative mx-auto grid max-w-[1600px] gap-12 px-6 py-20 md:grid-cols-[1.2fr_1fr_1fr] md:px-12 md:py-28">
         <div className="space-y-6">
-          <PSMBadge size={72} />
+          <PSMBadgeAnimated size={72} delay={0.1} />
           <H3 className="max-w-[18ch]">Let's Connect.</H3>
           <Body className="max-w-[38ch] text-[color:var(--color-sand-stone)]/75">
             Big ideas, bold flavors, and good conversations start here. Reach out — we'd love to
@@ -81,9 +82,12 @@ export function Footer() {
           <MonoCaption className="text-[color:var(--color-sand-stone)]/60">
             © {new Date().getFullYear()} Station 8 Public Market · Landmark Food Halls
           </MonoCaption>
-          <MonoCaption className="text-[color:var(--color-sand-stone)]/60">
-            Designed with care in La Jolla
-          </MonoCaption>
+          <div className="flex flex-wrap items-center gap-6">
+            <MotionToggle />
+            <MonoCaption className="text-[color:var(--color-sand-stone)]/60">
+              Designed with care in La Jolla
+            </MonoCaption>
+          </div>
         </div>
       </div>
     </footer>

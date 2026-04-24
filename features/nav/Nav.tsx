@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PSMBadge } from "@/design-system/icons/PSMBadge";
+import { PSMBadgeAnimated } from "@/design-system/icons/PSMBadgeAnimated";
 import { MonoCaption } from "@/design-system/primitives/Typography";
 
 /**
@@ -63,7 +63,7 @@ export function Nav() {
           className="flex items-center gap-3 text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
           aria-label="Station 8 Public Market home"
         >
-          <PSMBadge size={36} />
+          <PSMBadgeAnimated size={36} delay={0.2} />
           <MonoCaption className="hidden sm:inline-block pt-0.5">Station 8</MonoCaption>
         </Link>
 

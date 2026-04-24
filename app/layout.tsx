@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Big_Shoulders_Stencil, Inter, JetBrains_Mono } from "next/font/google";
+import { MotionPreferenceProvider } from "@/motion/MotionPreferenceProvider";
+import { SectionColorMorph } from "@/motion/SectionColorMorph";
 import "./globals.css";
 
 /**
@@ -72,7 +74,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable}`}>
-      <body>{children}</body>
+      <body>
+        <MotionPreferenceProvider>
+          <SectionColorMorph />
+          {children}
+        </MotionPreferenceProvider>
+      </body>
     </html>
   );
 }
