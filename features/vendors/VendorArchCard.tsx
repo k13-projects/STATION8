@@ -16,9 +16,9 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
   const hasPhoto = Boolean(vendor.photo);
 
   return (
-    <article className="group flex flex-col items-center text-center">
+    <article className="group mx-auto flex w-full max-w-[280px] flex-col items-center text-center">
       <div
-        className="relative aspect-[3/4] w-full overflow-hidden border border-[color:var(--color-sand-stone)]"
+        className="relative aspect-[3/4] w-full overflow-hidden border-[2px] border-[color:var(--color-olive)]"
         style={{ borderRadius: "9999px 9999px 0 0" }}
       >
         {hasPhoto && vendor.photo ? (

@@ -42,6 +42,17 @@ export function Nav() {
       >
         <Link
           href="/"
+          onClick={(e) => {
+            // Already on the home page — intercept the navigation and glide to
+            // the top smoothly instead of doing a hard jump/reload.
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              if (window.location.hash) {
+                window.history.replaceState(null, "", window.location.pathname);
+              }
+            }
+          }}
           className="flex items-center text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
           aria-label="STATION8 Public Market home"
         >
