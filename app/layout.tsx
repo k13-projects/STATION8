@@ -1,5 +1,32 @@
 import type { Metadata, Viewport } from "next";
+import { Big_Shoulders_Stencil, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+/**
+ * Fallback web fonts — live until Nitti + Industry Inc licenses clear.
+ * next/font self-hosts and generates size-adjust metrics for zero CLS.
+ * Variables are consumed by @theme tokens in globals.css.
+ */
+const fontSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans-loaded",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-loaded",
+  display: "swap",
+  weight: ["400", "500", "700"],
+});
+
+const fontDisplay = Big_Shoulders_Stencil({
+  subsets: ["latin"],
+  variable: "--font-display-loaded",
+  display: "swap",
+  weight: ["500", "700", "900"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +71,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable}`}>
       <body>{children}</body>
     </html>
   );

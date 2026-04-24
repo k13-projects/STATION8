@@ -33,13 +33,23 @@
   --color-ink-inverse: var(--color-dark-bark);
   --color-rule: color-mix(in oklch, var(--color-sand-stone) 30%, transparent);
 
-  /* ── Typography — families (fallbacks live until Nitti + Industry licenses clear) ── */
-  --font-mono: "Nitti Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-sans: "Nitti Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Industry Inc Base", "Big Shoulders Stencil", "Oswald", Impact, sans-serif;
+  /* ── Typography — families ──
+   * Fallbacks load via next/font (--font-sans-loaded etc.) until
+   * Nitti + Industry Inc licenses clear. Swap here, not in markup. */
+  --font-mono:
+    "Nitti Mono", var(--font-mono-loaded, "JetBrains Mono"), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+  --font-sans:
+    "Nitti Grotesk", var(--font-sans-loaded, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    "Industry Inc Base", var(--font-display-loaded, "Big Shoulders Stencil"), "Oswald", Impact,
+    sans-serif;
   --font-display-outline:
-    "Industry Inc Outline", "Big Shoulders Stencil Text", "Oswald", sans-serif;
-  --font-display-cutline: "Industry Inc Cutline", "Big Shoulders Stencil", "Oswald", sans-serif;
+    "Industry Inc Outline", var(--font-display-loaded, "Big Shoulders Stencil"), "Oswald",
+    sans-serif;
+  --font-display-cutline:
+    "Industry Inc Cutline", var(--font-display-loaded, "Big Shoulders Stencil"), "Oswald",
+    sans-serif;
 
   /* ── Typography — scale (1.333 modular) ── */
   --text-mono-caption: 0.6875rem; /* 11px */
