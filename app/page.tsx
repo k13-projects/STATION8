@@ -94,7 +94,7 @@ export default function Home() {
           className="relative overflow-hidden bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]"
         >
           <div className="text-[color:var(--color-sand-stone)]">
-            <PatternOverlay opacity={0.08} size={853} position="50% 50%" />
+            <PatternOverlay opacity={0.08} size={60} position="50% 50%" />
           </div>
           <div className="relative mx-auto max-w-[1100px] px-6 py-24 text-center md:px-12 md:py-36">
             <Reveal>
