@@ -6,14 +6,18 @@ import { useEffect, useRef, useState } from "react";
 /**
  * SectionNav — the link row from the STATION8 brief.
  *
- * Initial state: sits in document flow, just below the hero.
- * Scrolled past the hero: smoothly sticks to the top of the viewport (below
- * the global top nav) and stays there for the rest of the page.
+ * Behavior:
+ *  - Starts in document flow immediately below the hero.
+ *  - Uses CSS `position: sticky` to pin at `top: 80px` (flush under the global
+ *    top nav) the instant it touches that offset during a scroll — works
+ *    reliably whether the user scrolls the wheel, flings, drags the
+ *    scrollbar, or triggers an anchor jump.
+ *  - A scroll listener toggles a "stuck" class that fades in a soft drop
+ *    shadow and slightly darkens the bar, so the pin moment reads visually.
  *
- * Uses an IntersectionObserver on a sentinel at the element's natural top
- * edge. When the sentinel leaves the viewport upward, the bar becomes
- * position: fixed and fades into its sticky state over the motion base
- * duration — no layout-shift flicker.
+ * Why sticky over IntersectionObserver: zero-height sentinels are a
+ * knife-edge case for IO and miss fast scrolls / anchor jumps — which is
+ * exactly the bug the stakeholder flagged.
  */
 
 const LINKS = [
@@ -25,75 +29,72 @@ const LINKS = [
   { label: "CONTACT", href: "#contact" },
 ];
 
-/** Top-nav height so the sticky state sits flush under it. */
+/** Top-nav height so the sticky bar parks flush under it. */
 const TOP_NAV_HEIGHT = 80;
 
 export function SectionNav() {
-  const sentinelRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const [stuck, setStuck] = useState(false);
 
   useEffect(() => {
-    const el = sentinelRef.current;
+    const el = barRef.current;
     if (!el) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry) return;
-        // When the sentinel goes above the viewport, stick the bar
-        setStuck(entry.boundingClientRect.top < 0);
-      },
-      // Fire as soon as the sentinel reaches the top of the viewport, offset
-      // by the top-nav height so transitions chain cleanly.
-      { rootMargin: `-${TOP_NAV_HEIGHT}px 0px 0px 0px`, threshold: 0 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        // When the bar is parked at top:80 it's "stuck".
+        // Allow 1px tolerance for subpixel rendering.
+        setStuck(rect.top <= TOP_NAV_HEIGHT + 1);
+        ticking = false;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (
-    <>
-      {/* Sentinel — detects when the bar's natural position crosses the viewport top */}
-      <div ref={sentinelRef} aria-hidden="true" className="h-0" />
-
-      {/* Placeholder keeps the document flow correct when the bar goes fixed */}
-      <div className="relative h-16">
-        <div
-          className={`${
-            stuck
-              ? "fixed left-0 right-0 shadow-[0_4px_20px_rgba(0,0,0,0.18)]"
-              : "absolute inset-x-0"
-          } z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-[top,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-precise)]`}
-          style={{ top: stuck ? TOP_NAV_HEIGHT : 0 }}
-        >
-          <div className="relative text-[color:var(--color-sand-stone)]">
-            <PatternTint />
-          </div>
-          <nav
-            className="relative mx-auto flex h-16 max-w-[1600px] items-center justify-center px-6 md:px-12"
-            aria-label="Sections"
-          >
-            <ul className="flex items-center gap-6 md:gap-10 overflow-x-auto whitespace-nowrap">
-              {LINKS.map((l, i) => (
-                <li key={l.href} className="flex items-center gap-6 md:gap-10">
-                  <Link
-                    href={l.href}
-                    className="mono-caption text-[length:var(--text-mono-label)] text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
-                  >
-                    {l.label}
-                  </Link>
-                  {i < LINKS.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className="h-4 w-px bg-[color:var(--color-sand-stone)]/30"
-                    />
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+    <div
+      ref={barRef}
+      data-stuck={stuck ? "true" : "false"}
+      className="sticky z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-shadow duration-[var(--duration-base)] ease-[var(--ease-precise)] data-[stuck=true]:shadow-[0_6px_24px_rgba(0,0,0,0.22)]"
+      style={{ top: TOP_NAV_HEIGHT }}
+    >
+      <div className="relative text-[color:var(--color-sand-stone)]">
+        <PatternTint />
       </div>
-    </>
+      <nav
+        className="relative mx-auto flex h-16 max-w-[1600px] items-center justify-center px-6 md:px-12"
+        aria-label="Sections"
+      >
+        <ul className="flex items-center gap-6 overflow-x-auto whitespace-nowrap md:gap-10">
+          {LINKS.map((l, i) => (
+            <li key={l.href} className="flex items-center gap-6 md:gap-10">
+              <Link
+                href={l.href}
+                className="mono-caption text-[length:var(--text-mono-label)] text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
+              >
+                {l.label}
+              </Link>
+              {i < LINKS.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="h-4 w-px bg-[color:var(--color-sand-stone)]/30"
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   );
 }
 

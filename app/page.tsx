@@ -1,14 +1,8 @@
 import Image from "next/image";
 import { Button } from "@/design-system/primitives/Button";
 import { PatternOverlay } from "@/design-system/primitives/PatternOverlay";
-import {
-  Body,
-  DisplayLG,
-  DisplayXL,
-  H1,
-  MonoCaption,
-  MonoLabel,
-} from "@/design-system/primitives/Typography";
+import { SectionLabel } from "@/design-system/primitives/SectionLabel";
+import { Body, DisplayLG, DisplayXL, H1, MonoLabel } from "@/design-system/primitives/Typography";
 import { Footer } from "@/features/contact/Footer";
 import { EventDateCard } from "@/features/events/EventDateCard";
 import { Nav } from "@/features/nav/Nav";
@@ -53,7 +47,7 @@ export default function Home() {
         <section
           aria-label="STATION8 Public Market"
           data-section-bg="--color-dark-bark"
-          className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-[color:var(--color-dark-bark)]"
+          className="relative h-[55svh] min-h-[480px] w-full overflow-hidden bg-[color:var(--color-dark-bark)]"
         >
           <Image
             src="/renders/hero-bar.png"
@@ -110,12 +104,8 @@ export default function Home() {
           </div>
           <div className="relative mx-auto max-w-[1100px] px-6 py-24 text-center md:px-12 md:py-36">
             <Reveal>
-              <div className="mb-12 flex items-center justify-center gap-6">
-                <span className="h-px w-20 bg-[color:var(--color-sand-stone)]/60 md:w-40" />
-                <MonoCaption className="text-[color:var(--color-sand-stone)]/85">
-                  Who We Are
-                </MonoCaption>
-                <span className="h-px w-20 bg-[color:var(--color-sand-stone)]/60 md:w-40" />
+              <div className="mb-14">
+                <SectionLabel tone="light">Who We Are</SectionLabel>
               </div>
             </Reveal>
             <DisplayLG
@@ -168,12 +158,8 @@ export default function Home() {
         >
           <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-16 flex items-center justify-center gap-6">
-                <span className="h-px w-20 bg-[color:var(--color-dark-bark)]/30 md:w-40" />
-                <MonoCaption className="text-[color:var(--color-dark-bark)]/70">
-                  Our Vendors
-                </MonoCaption>
-                <span className="h-px w-20 bg-[color:var(--color-dark-bark)]/30 md:w-40" />
+              <div className="mb-16">
+                <SectionLabel tone="dark">Our Vendors</SectionLabel>
               </div>
             </Reveal>
             <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2 md:grid-cols-3 md:gap-x-10 md:gap-y-16">
@@ -197,12 +183,8 @@ export default function Home() {
           </div>
           <div className="relative mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-16 flex items-center justify-center gap-6">
-                <span className="h-px w-20 bg-[color:var(--color-sand-stone)]/60 md:w-40" />
-                <MonoCaption className="text-[color:var(--color-sand-stone)]/85">
-                  Events
-                </MonoCaption>
-                <span className="h-px w-20 bg-[color:var(--color-sand-stone)]/60 md:w-40" />
+              <div className="mb-16">
+                <SectionLabel tone="light">Events</SectionLabel>
               </div>
             </Reveal>
             <div className="grid gap-6 md:grid-cols-3">
@@ -226,11 +208,10 @@ export default function Home() {
         >
           <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-10 flex items-center gap-6">
-                <span className="h-px w-16 bg-[color:var(--color-dark-bark)]/30 md:w-28" />
-                <MonoCaption className="text-[color:var(--color-dark-bark)]/70">
+              <div className="mb-12">
+                <SectionLabel tone="dark" align="start">
                   Bookings
-                </MonoCaption>
+                </SectionLabel>
               </div>
             </Reveal>
             <div className="grid items-center gap-12 md:grid-cols-2 md:gap-24">
@@ -272,12 +253,9 @@ export default function Home() {
           <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-24 md:grid-cols-2 md:gap-16 md:px-12 md:py-32">
             <div className="space-y-8">
               <Reveal>
-                <div className="flex items-center gap-6">
-                  <span className="h-px w-16 bg-[color:var(--color-dark-bark)]/30 md:w-28" />
-                  <MonoCaption className="text-[color:var(--color-dark-bark)]/70">
-                    Where We Are
-                  </MonoCaption>
-                </div>
+                <SectionLabel tone="dark" align="start">
+                  Where We Are
+                </SectionLabel>
               </Reveal>
               <H1
                 as="h2"
