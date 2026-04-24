@@ -115,6 +115,18 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  /* Offset anchor jumps so the 28px section-chevron tucks under the sticky
+     chrome AND the internal section padding (py-24 mobile / md:py-36 desktop)
+     doesn't leave a large empty band — the section label lands ~30-50px under
+     the sticky nav. */
+  scroll-padding-top: 90px;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 80px;
+  }
 }
 
 body {

@@ -316,9 +316,12 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
-      </main>
 
-      <Footer />
+        {/* Footer lives inside <main> so the sticky SectionNav keeps pinning
+            through the Let's Connect section — sticky un-sticks at its parent's
+            bottom, so main must contain every section the bar should ride over. */}
+        <Footer />
+      </main>
     </>
   );
 }
