@@ -22,12 +22,20 @@ export function Footer() {
       data-section-bg="--color-olive"
       className="relative overflow-hidden bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)]"
     >
-      <div className="relative mx-auto grid max-w-[1400px] items-center gap-12 px-6 py-20 md:grid-cols-[1fr_1.2fr] md:px-12 md:py-28">
-        <div className="flex items-center justify-center md:justify-start">
+      <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-6 py-20 md:grid-cols-[1fr_1.3fr] md:gap-24 md:px-12 md:py-28">
+        <div className="flex items-center justify-center md:justify-end">
           <PSMBadgeAnimated size={240} delay={0.1} />
         </div>
         <div className="space-y-6 md:space-y-8">
-          <MonoCaption className="text-[color:var(--color-sand-stone)]/70">Contact Us</MonoCaption>
+          <div className="flex items-center gap-6">
+            <span
+              aria-hidden="true"
+              className="h-px w-14 bg-[color:var(--color-sand-stone)]/55 md:w-20"
+            />
+            <span className="font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.22em] whitespace-nowrap text-[color:var(--color-sand-stone)] md:text-base">
+              Contact Us
+            </span>
+          </div>
           <H1
             as="h2"
             className="font-[family-name:var(--font-display)] text-[length:var(--text-h1)] md:text-[length:var(--text-display-md)] uppercase tracking-tight"
@@ -61,10 +69,23 @@ export function Footer() {
           <div className="pt-2">
             <Link
               href="https://instagram.com/station8"
-              className="inline-flex items-baseline gap-2 mono-caption text-[color:var(--color-sand-stone)]/70 hover:text-white transition-colors"
+              aria-label="STATION8 on Instagram"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--color-sand-stone)]/80 transition-colors hover:text-white"
             >
-              <span>Instagram</span>
-              <span aria-hidden="true">↗</span>
+              <svg
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" />
+              </svg>
             </Link>
           </div>
         </div>
@@ -73,7 +94,7 @@ export function Footer() {
       <div className="relative border-t border-[color:var(--color-sand-stone)]/25">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-6 py-5 md:px-12">
           <MonoCaption className="text-[color:var(--color-sand-stone)]/70">
-            © {new Date().getFullYear()} STATION8 Public Market · Landmark Food Halls
+            © {new Date().getFullYear()} STATION8 Public Market
           </MonoCaption>
           <div className="flex flex-wrap items-center gap-6">
             <MotionToggle />
