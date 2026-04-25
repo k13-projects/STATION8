@@ -198,15 +198,13 @@ export default function Home() {
           <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
               <div className="mb-12">
-                <SectionLabel tone="dark" align="start">
-                  Bookings
-                </SectionLabel>
+                <SectionLabel tone="dark">Bookings</SectionLabel>
               </div>
             </Reveal>
-            <div className="grid items-center gap-12 md:grid-cols-2 md:gap-24">
+            <div className="mx-auto grid max-w-[1200px] items-center gap-12 md:grid-cols-2 md:gap-40">
               <DisplayLG
                 as="h2"
-                className="font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight"
+                className="font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight md:justify-self-end"
               >
                 <span className="block">
                   <SplitReveal text="Planning" stagger={0.05} />
@@ -218,7 +216,7 @@ export default function Home() {
                   <SplitReveal text="Special?" delay={0.24} stagger={0.05} />
                 </span>
               </DisplayLG>
-              <div className="flex flex-col items-center gap-8 text-center">
+              <div className="flex flex-col items-center gap-8 text-center md:items-start md:justify-self-start md:text-left">
                 <Reveal delay={0.15}>
                   <Body className="text-[color:var(--color-dark-bark)]/85">
                     <span className="block">From birthdays to big celebrations,</span>
