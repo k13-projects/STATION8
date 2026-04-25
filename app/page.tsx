@@ -197,11 +197,11 @@ export default function Home() {
         >
           <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-12">
+              <div className="mb-12 md:mb-40">
                 <SectionLabel tone="dark">Bookings</SectionLabel>
               </div>
             </Reveal>
-            <div className="mx-auto grid max-w-[1200px] items-center gap-12 md:grid-cols-2 md:gap-40">
+            <div className="mx-auto grid max-w-[1200px] items-center gap-12 pb-8 md:grid-cols-2 md:gap-40 md:pb-20">
               <DisplayLG
                 as="h2"
                 className="font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight md:justify-self-end"
@@ -243,15 +243,21 @@ export default function Home() {
         {/* ── 10. VISIT US ── */}
         <section
           id="visit-us"
-          data-section-bg="--color-sand-stone"
-          className="relative bg-[color:var(--color-sand-stone)] text-[color:var(--color-dark-bark)]"
+          data-section-bg="--color-white"
+          className="relative bg-[color:var(--color-white)] text-[color:var(--color-dark-bark)]"
         >
-          <div className="mx-auto grid max-w-[1400px] gap-10 px-6 py-24 md:grid-cols-2 md:gap-16 md:px-12 md:py-32">
-            <div className="space-y-8">
+          <div className="grid md:min-h-[640px] md:grid-cols-2">
+            <div className="flex flex-col justify-center space-y-8 px-6 py-20 md:px-14 md:py-28 lg:pl-24 lg:pr-20">
               <Reveal>
-                <SectionLabel tone="dark" align="start">
-                  Where We Are
-                </SectionLabel>
+                <div className="flex items-center gap-6">
+                  <span
+                    aria-hidden="true"
+                    className="h-px w-14 bg-[color:var(--color-dark-bark)]/45 md:w-20"
+                  />
+                  <span className="font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.22em] whitespace-nowrap text-[color:var(--color-dark-bark)] md:text-base">
+                    Where We Are
+                  </span>
+                </div>
               </Reveal>
               <H1
                 as="h2"
@@ -291,11 +297,11 @@ export default function Home() {
               </Reveal>
 
               <Reveal delay={0.5}>
-                <div>
+                <div className="pt-4">
                   <Button
                     href="https://maps.apple.com/?q=STATION8+Public+Market+La+Jolla"
                     variant="primary"
-                    className="!rounded-full !bg-[color:var(--color-spice)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-spice)] hover:!bg-[color:var(--color-dark-bark)]"
+                    className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
                   >
                     Go Now
                   </Button>
@@ -303,8 +309,8 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <Reveal delay={0.1}>
-              <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <Reveal delay={0.1} className="md:h-full">
+              <div className="relative h-full min-h-[420px] w-full overflow-hidden md:min-h-0">
                 <Image
                   src="/renders/station8-exterior.png"
                   alt="STATION8 Public Market building exterior at UCSD Theater District"
