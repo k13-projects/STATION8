@@ -206,15 +206,24 @@ export default function Home() {
             <div className="grid items-center gap-12 md:grid-cols-2 md:gap-24">
               <DisplayLG
                 as="h2"
-                className="max-w-[16ch] font-[family-name:var(--font-display)] uppercase tracking-tight"
+                className="font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight"
               >
-                <SplitReveal text="Planning something special?" stagger={0.05} />
+                <span className="block">
+                  <SplitReveal text="Planning" stagger={0.05} />
+                </span>
+                <span className="block">
+                  <SplitReveal text="Something" delay={0.12} stagger={0.05} />
+                </span>
+                <span className="block">
+                  <SplitReveal text="Special?" delay={0.24} stagger={0.05} />
+                </span>
               </DisplayLG>
-              <div className="space-y-8">
+              <div className="flex flex-col items-center gap-8 text-center">
                 <Reveal delay={0.15}>
-                  <Body className="max-w-[44ch] text-[color:var(--color-dark-bark)]/85">
-                    From birthdays to big celebrations, STATION8 is the perfect place to gather,
-                    share, and indulge.
+                  <Body className="text-[color:var(--color-dark-bark)]/85">
+                    <span className="block">From birthdays to big celebrations,</span>
+                    <span className="block">STATION8 is the perfect place to</span>
+                    <span className="block">gather, share, and indulge.</span>
                   </Body>
                 </Reveal>
                 <Reveal delay={0.3}>
@@ -222,7 +231,7 @@ export default function Home() {
                     <Button
                       href="#bookings-form"
                       variant="primary"
-                      className="!rounded-full !bg-[color:var(--color-spice)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-spice)] hover:!bg-[color:var(--color-dark-bark)]"
+                      className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
                     >
                       Get in Touch
                     </Button>
