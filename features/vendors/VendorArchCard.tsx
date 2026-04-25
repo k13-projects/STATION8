@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PSMBadgeCoinFlip } from "@/design-system/icons/PSMBadgeCoinFlip";
-import { Button } from "@/design-system/primitives/Button";
 import { MonoCaption } from "@/design-system/primitives/Typography";
+import { VendorLearnMoreModal } from "./VendorLearnMoreModal";
 import type { Vendor } from "./vendors";
 
 /**
@@ -46,14 +46,7 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
           <span>{vendor.name}</span>
           <CrosshairMark />
         </h3>
-        <Button
-          href={`#vendor-${vendor.slug}`}
-          variant="primary"
-          size="sm"
-          className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
-        >
-          See More
-        </Button>
+        <VendorLearnMoreModal vendor={vendor} />
       </div>
     </article>
   );
@@ -65,7 +58,7 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
  * 14-unit canvas: a centered circle and two axis lines that extend past it.
  * Picks up its color from the parent via `currentColor`.
  */
-function CrosshairMark() {
+export function CrosshairMark() {
   return (
     <svg
       aria-hidden="true"

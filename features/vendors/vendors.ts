@@ -13,6 +13,7 @@ export type Vendor = {
   cuisine: string;
   blurb: string;
   handle?: string;
+  website?: string;
   photo?: string;
   photoAlt?: string;
 };
@@ -54,6 +55,7 @@ export const VENDORS: Vendor[] = [
     cuisine: "Ramen",
     blurb:
       'Signature "W soup" — rich meat and delicate fish broths blended for perfectly balanced, authentic ramen.',
+    // TODO: stakeholder website
   },
   {
     slug: "coco-playa",
@@ -71,6 +73,7 @@ export const VENDORS: Vendor[] = [
     cuisine: "Mexican",
     blurb:
       "The parent behind Tortas Paquime, Street Food of Mexico, and Pa'La Wood-Fired Kitchen — chef-driven Mexican, California-inspired.",
+    // TODO: stakeholder website
     photo: "/brand/vendor-magdalena.jpg",
     photoAlt: "Chicken sandwich with pesto, mozzarella, and tomato",
   },

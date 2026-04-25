@@ -81,7 +81,7 @@ export function LearnMoreModal() {
             id="learn-more-title"
             className="text-center font-[family-name:var(--font-display)] text-[1.375rem] uppercase leading-[1.1] tracking-tight text-[color:var(--color-dark-bark)] md:whitespace-nowrap md:text-[1.875rem]"
           >
-            Where design meets flavor and food cultures unite to tell stories.
+            Where design meets flavor and food cultures unite to tell stories
           </h2>
 
           <div className="mt-9 flex flex-col gap-8">
