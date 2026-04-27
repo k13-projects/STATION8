@@ -15,6 +15,13 @@ const INQUIRIES = [
   { label: "Careers", href: "mailto:careers@station8.example" },
 ];
 
+const LEGAL_LINKS = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Cookies", href: "/cookies" },
+  { label: "Accessibility", href: "/accessibility" },
+];
+
 export function Footer() {
   return (
     <footer
@@ -92,10 +99,21 @@ export function Footer() {
       </div>
 
       <div className="relative border-t border-[color:var(--color-sand-stone)]/25">
-        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-6 py-5 md:px-12">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-5 md:px-12 lg:flex-row lg:items-center lg:justify-between">
           <MonoCaption className="text-[color:var(--color-sand-stone)]/70">
             © {new Date().getFullYear()} STATION8 Public Market
           </MonoCaption>
+          <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {LEGAL_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-[family-name:var(--font-mono)] text-[length:var(--text-mono-caption)] uppercase tracking-[0.18em] text-[color:var(--color-sand-stone)]/70 transition-colors hover:text-[color:var(--color-sand-stone)]"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <div className="flex flex-wrap items-center gap-6">
             <MotionToggle />
             <MonoCaption className="text-[color:var(--color-sand-stone)]/70">

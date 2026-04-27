@@ -44,7 +44,7 @@ export default function Home() {
     <>
       <Nav />
 
-      <main>
+      <main id="main-content">
         {/* ── 1. Hero ── */}
         <section
           aria-label="STATION8 Public Market"
@@ -132,10 +132,7 @@ export default function Home() {
         </section>
 
         {/* ── 5. Divider render — wayfinding ── */}
-        <Divider
-          src="/renders/hero-wayfinding.png"
-          alt="STATION8 wayfinding badge under hanging greenery"
-        />
+        <Divider src="/renders/hero-wayfinding.png" />
 
         {/* ── 6. OUR VENDORS ── */}
         <section
@@ -187,7 +184,7 @@ export default function Home() {
         </section>
 
         {/* ── 8. Divider render — dining ── */}
-        <Divider src="/renders/hero-dining.png" alt="STATION8 dining area with hanging greenery" />
+        <Divider src="/renders/hero-dining.png" />
 
         {/* ── 9. BOOKINGS ── */}
         <section
@@ -332,13 +329,23 @@ export default function Home() {
   );
 }
 
-function Divider({ src, alt }: { src: string; alt: string }) {
+function Divider({ src }: { src: string }) {
+  // Decorative interstitial — no semantic value, hidden from AT.
+  // The empty alt + aria-hidden combination is the standard 508/WCAG pattern
+  // for purely visual atmospheric imagery between content sections.
   return (
     <div
-      aria-hidden="false"
+      aria-hidden="true"
       className="relative h-[55svh] min-h-[480px] w-full overflow-hidden bg-[color:var(--color-dark-bark)]"
     >
-      <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: "cover" }} />
+      <Image
+        src={src}
+        alt=""
+        role="presentation"
+        fill
+        sizes="100vw"
+        style={{ objectFit: "cover" }}
+      />
     </div>
   );
 }

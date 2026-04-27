@@ -187,3 +187,142 @@ body {
     opacity: 0;
   }
 }
+
+/* ─────────────────────────────────────────────────────────
+ * Skip-to-content — visually hidden until focused.
+ * First focusable element on every page (508 / WCAG 2.4.1).
+ * ───────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-dark-bark);
+  color: var(--color-sand-stone);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-label);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: top 160ms var(--ease-precise);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+  outline: 2px solid var(--color-sand-stone);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────
+ * Legal-prose — long-form readable styling for /privacy,
+ * /terms, /cookies, /accessibility. Optimised for legibility
+ * on a Sand Stone background; do not pull these styles into
+ * the brand pages.
+ * ───────────────────────────────────────────────────────── */
+.legal-prose {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: color-mix(in oklch, var(--color-dark-bark) 92%, transparent);
+}
+.legal-prose .legal-lede {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-dark-bark);
+}
+.legal-prose h2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.005em;
+  color: var(--color-dark-bark);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.legal-prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: var(--color-dark-bark);
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.legal-prose p {
+  margin-top: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+.legal-prose ul,
+.legal-prose ol {
+  margin: 0.85rem 0;
+  padding-left: 1.4rem;
+}
+.legal-prose li {
+  margin: 0.4rem 0;
+}
+.legal-prose ul {
+  list-style: disc;
+}
+.legal-prose ol {
+  list-style: decimal;
+}
+.legal-prose a {
+  color: var(--color-olive);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+.legal-prose a:hover {
+  color: var(--color-dark-bark);
+}
+.legal-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: color-mix(in oklch, var(--color-olive) 10%, transparent);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+}
+.legal-prose strong {
+  color: var(--color-dark-bark);
+  font-weight: 600;
+}
+.legal-prose .legal-address {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--color-olive);
+  background: color-mix(in oklch, var(--color-olive) 5%, transparent);
+}
+.legal-prose .legal-disclaimer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in oklch, var(--color-dark-bark) 15%, transparent);
+  color: color-mix(in oklch, var(--color-dark-bark) 65%, transparent);
+  font-size: 0.875rem;
+}
+.legal-prose .legal-table {
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.legal-prose .legal-table th,
+.legal-prose .legal-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--color-dark-bark) 15%, transparent);
+}
+.legal-prose .legal-table th {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: var(--color-olive);
+  background: color-mix(in oklch, var(--color-olive) 5%, transparent);
+}

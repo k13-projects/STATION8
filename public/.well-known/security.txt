@@ -1,0 +1,11 @@
+# STATION8 Public Market — Security disclosure
+# RFC 9116: https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:security@station8.example
+Expires: 2027-04-26T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://station8.example/.well-known/security.txt
+Policy: https://station8.example/security
+
+# Email addresses, canonical URL, and policy URL are placeholders pending
+# decisions D-1 and D-8 in docs/DECISIONS_NEEDED.md.

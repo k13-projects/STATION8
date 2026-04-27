@@ -74,9 +74,7 @@ export function PSMBadgeCoinFlip({
       <motion.span
         initial={{ rotateY: 0, scale: 1 }}
         animate={
-          shouldReduce
-            ? { rotateY: 0, scale: 1 }
-            : { rotateY: [0, 360], scale: [1, 1.045, 1] }
+          shouldReduce ? { rotateY: 0, scale: 1 } : { rotateY: [0, 360], scale: [1, 1.045, 1] }
         }
         transition={
           shouldReduce
