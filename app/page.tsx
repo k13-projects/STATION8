@@ -97,9 +97,9 @@ export default function Home() {
           <div className="text-[color:var(--color-sand-stone)]">
             <PatternOverlay opacity={0.08} size={60} position="50% 50%" />
           </div>
-          <div className="relative mx-auto max-w-[1100px] px-6 py-24 text-center md:px-12 md:py-36">
+          <div className="relative mx-auto max-w-[1100px] px-6 py-16 text-center md:px-12 md:py-36">
             <Reveal>
-              <div className="mb-14">
+              <div className="mb-10 md:mb-14">
                 <SectionLabel tone="light">Who We Are</SectionLabel>
               </div>
             </Reveal>
@@ -140,13 +140,13 @@ export default function Home() {
           data-section-bg="--color-sand-stone"
           className="relative bg-[color:var(--color-sand-stone)] text-[color:var(--color-dark-bark)]"
         >
-          <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
+          <div className="mx-auto max-w-[1400px] px-6 py-14 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-16">
+              <div className="mb-10 md:mb-16">
                 <SectionLabel tone="dark">Our Vendors</SectionLabel>
               </div>
             </Reveal>
-            <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2 md:grid-cols-3 md:gap-x-10 md:gap-y-16">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-6 sm:gap-y-14 md:grid-cols-3 md:gap-x-10 md:gap-y-16">
               {VENDORS.map((vendor, i) => (
                 <Reveal key={vendor.slug} delay={(i % 3) * 0.08}>
                   <VendorArchCard vendor={vendor} />
@@ -167,9 +167,9 @@ export default function Home() {
           <div className="text-[color:var(--color-sand-stone)]">
             <PatternOverlay opacity={0.08} cover position="50% 50%" />
           </div>
-          <div className="relative mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
+          <div className="relative mx-auto max-w-[1400px] px-6 py-14 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-16">
+              <div className="mb-10 md:mb-16">
                 <SectionLabel tone="light">Events</SectionLabel>
               </div>
             </Reveal>
@@ -192,16 +192,16 @@ export default function Home() {
           data-section-bg="--color-sand-stone"
           className="relative bg-[color:var(--color-sand-stone)] text-[color:var(--color-dark-bark)]"
         >
-          <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-12 md:py-32">
+          <div className="mx-auto max-w-[1400px] px-6 py-16 md:px-12 md:py-32">
             <Reveal>
-              <div className="mb-12 md:mb-40">
+              <div className="mb-10 md:mb-40">
                 <SectionLabel tone="dark">Bookings</SectionLabel>
               </div>
             </Reveal>
-            <div className="mx-auto grid max-w-[1200px] items-center gap-12 pb-8 md:grid-cols-2 md:gap-40 md:pb-20">
+            <div className="mx-auto grid max-w-[1200px] items-center gap-10 pb-8 md:grid-cols-2 md:gap-40 md:pb-20">
               <DisplayLG
                 as="h2"
-                className="font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight md:justify-self-end"
+                className="text-center font-[family-name:var(--font-display)] uppercase leading-[0.95] tracking-tight md:text-left md:justify-self-end"
               >
                 <span className="block">
                   <SplitReveal text="Planning" stagger={0.05} />
@@ -215,10 +215,9 @@ export default function Home() {
               </DisplayLG>
               <div className="flex flex-col items-center gap-8 text-center md:items-start md:justify-self-start md:text-left">
                 <Reveal delay={0.15}>
-                  <Body className="text-[color:var(--color-dark-bark)]/85">
-                    <span className="block">From birthdays to big celebrations,</span>
-                    <span className="block">STATION8 is the perfect place to</span>
-                    <span className="block">gather, share, and indulge.</span>
+                  <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/85">
+                    From birthdays to big celebrations, STATION8 is the perfect place to gather,
+                    share, and indulge.
                   </Body>
                 </Reveal>
                 <Reveal delay={0.3}>
@@ -244,7 +243,7 @@ export default function Home() {
           className="relative bg-[color:var(--color-white)] text-[color:var(--color-dark-bark)]"
         >
           <div className="grid md:min-h-[640px] md:grid-cols-2">
-            <div className="flex flex-col justify-center space-y-8 px-6 py-20 md:px-14 md:py-28 lg:pl-24 lg:pr-20">
+            <div className="flex flex-col justify-center space-y-6 px-6 py-16 md:space-y-8 md:px-14 md:py-28 lg:pl-24 lg:pr-20">
               <Reveal>
                 <div className="flex items-center gap-6">
                   <span

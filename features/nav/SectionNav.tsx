@@ -6,11 +6,16 @@ import { useEffect, useRef, useState } from "react";
 /**
  * SectionNav — the link row from the STATION8 brief.
  *
- * Behavior:
+ * Visibility:
+ *  - md+ only. On mobile, the global hamburger menu in `Nav.tsx` covers the
+ *    same six destinations, so the sticky bar is hidden to avoid duplicate
+ *    chrome and the cramped horizontal-scroll it produced sub-md.
+ *
+ * Behavior (desktop):
  *  - Starts in document flow immediately below the hero.
- *  - Uses CSS `position: sticky` to pin at `top: 80px` (flush under the global
- *    top nav) the instant it touches that offset during a scroll — works
- *    reliably whether the user scrolls the wheel, flings, drags the
+ *  - Uses CSS `position: sticky` to pin at `top: 112px` (flush under the
+ *    global top nav) the instant it touches that offset during a scroll —
+ *    works reliably whether the user scrolls the wheel, flings, drags the
  *    scrollbar, or triggers an anchor jump.
  *  - A scroll listener toggles a "stuck" class that fades in a soft drop
  *    shadow and slightly darkens the bar, so the pin moment reads visually.
@@ -73,7 +78,7 @@ export function SectionNav() {
     <div
       ref={barRef}
       data-stuck={stuck ? "true" : "false"}
-      className="sticky top-[88px] md:top-[112px] z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-shadow duration-[var(--duration-base)] ease-[var(--ease-precise)] data-[stuck=true]:shadow-[0_6px_24px_rgba(0,0,0,0.22)]"
+      className="hidden md:block sticky top-[112px] z-40 bg-[color:var(--color-olive)] text-[color:var(--color-sand-stone)] transition-shadow duration-[var(--duration-base)] ease-[var(--ease-precise)] data-[stuck=true]:shadow-[0_6px_24px_rgba(0,0,0,0.22)]"
     >
       <div className="relative text-[color:var(--color-sand-stone)]">
         <PatternTint />

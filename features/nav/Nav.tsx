@@ -98,13 +98,13 @@ export function Nav() {
           mobileOpen ? "max-h-[100svh]" : "max-h-0"
         }`}
       >
-        <ul className="flex flex-col gap-4 px-6 pb-10 pt-6 md:px-12">
+        <ul className="flex flex-col gap-4 px-6 pb-10 pt-6 text-center md:px-12">
           {LINKS.map((l) => (
             <li key={l.href}>
               <Link
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
-                className="block font-[family-name:var(--font-display)] text-[length:var(--text-h1)] uppercase tracking-wide text-[color:var(--color-sand-stone)] hover:text-white"
+                className="block font-[family-name:var(--font-display)] text-[length:var(--text-h1)] uppercase tracking-wide text-[color:var(--color-sand-stone)] transition-colors hover:text-white"
               >
                 {l.label}
               </Link>

@@ -40,8 +40,8 @@ export function VendorArchCard({ vendor }: { vendor: Vendor }) {
         )}
       </div>
 
-      <div className="mt-5 flex flex-col items-center gap-3">
-        <h3 className="flex items-center justify-center gap-2.5 font-[family-name:var(--font-sans)] text-[1.0625rem] font-bold uppercase leading-tight tracking-[0.06em] text-[color:var(--color-dark-bark)]">
+      <div className="mt-4 flex flex-col items-center gap-2 sm:mt-5 sm:gap-3">
+        <h3 className="flex items-center justify-center gap-1.5 font-[family-name:var(--font-sans)] text-[0.8125rem] font-bold uppercase leading-tight tracking-[0.04em] text-[color:var(--color-dark-bark)] sm:gap-2.5 sm:text-[1.0625rem] sm:tracking-[0.06em]">
           <CrosshairMark />
           <span>{vendor.name}</span>
           <CrosshairMark />
