@@ -1,8 +1,11 @@
 "use client";
 
 import { motion, useInView } from "motion/react";
-import { type ElementType, useMemo, useRef } from "react";
+import { type ElementType, useEffect, useMemo, useRef, useState } from "react";
 import { useMotionPreference } from "@/motion/MotionPreferenceProvider";
+
+// Safety net: matches Reveal — see motion/primitives/Reveal.tsx.
+const FALLBACK_MS = 700;
 
 /**
  * SplitReveal — reveal a string word-by-word with a controlled stagger.
@@ -36,6 +39,14 @@ export function SplitReveal({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { amount, once: true });
   const { shouldReduce } = useMotionPreference();
+  const [fallback, setFallback] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setFallback(true), FALLBACK_MS);
+    return () => clearTimeout(t);
+  }, []);
+
+  const visible = inView || fallback;
 
   const words = useMemo(() => text.split(/(\s+)/), [text]);
 
@@ -44,7 +55,7 @@ export function SplitReveal({
       <As ref={ref} id={id} className={className}>
         <motion.span
           initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : undefined}
+          animate={visible ? { opacity: 1 } : undefined}
           transition={{ duration: 0.2, delay }}
           style={{ display: "inline-block" }}
         >
@@ -64,7 +75,7 @@ export function SplitReveal({
             // biome-ignore lint/suspicious/noArrayIndexKey: word order is stable for a given text input
             key={i}
             initial={{ opacity: 0, y: distance }}
-            animate={inView ? { opacity: 1, y: 0 } : undefined}
+            animate={visible ? { opacity: 1, y: 0 } : undefined}
             transition={{
               duration: 0.8,
               delay: delay + i * stagger,

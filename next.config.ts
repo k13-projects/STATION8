@@ -3,10 +3,14 @@ import type { NextConfig } from "next";
 /**
  * Production security headers.
  *
- * CSP is intentionally permissive on script-src/style-src ('unsafe-inline')
- * because Next.js App Router emits inline hydration scripts and Tailwind v4
- * inlines arbitrary-value styles. Tightening to nonce/hash-based CSP needs a
- * per-request middleware that mints nonces — deferred to P7 polish.
+ * CSP is intentionally permissive on script-src/style-src ('unsafe-inline',
+ * 'unsafe-eval') because:
+ *   - Next.js App Router emits inline hydration scripts
+ *   - Tailwind v4 inlines arbitrary-value styles
+ *   - motion/react and gsap both call new Function() to parse animation values
+ *   - Next.js dev mode uses eval() for source maps / HMR
+ * Tightening to nonce/hash-based CSP needs a per-request middleware that mints
+ * nonces — deferred to P7 polish.
  *
  * What this still buys us today:
  *   - frame-ancestors 'none'   → blocks clickjacking
@@ -17,7 +21,7 @@ import type { NextConfig } from "next";
  */
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://cdn.sanity.io https://scontent.cdninstagram.com",
   "font-src 'self' data:",

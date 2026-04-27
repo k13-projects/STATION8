@@ -1,7 +1,7 @@
 "use client";
 
 import { type HTMLMotionProps, motion, useInView } from "motion/react";
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useMotionPreference } from "@/motion/MotionPreferenceProvider";
 
 /**
@@ -12,6 +12,12 @@ import { useMotionPreference } from "@/motion/MotionPreferenceProvider";
  * Place on any block element. Default delay 0; stagger siblings by passing
  * incremental `delay` values.
  */
+
+// Safety net: if useInView hasn't reported inView within this window after
+// mount, fade content in anyway. Guards against observer-never-fires bugs
+// (chunk load races, hydration hiccups, viewport math edge cases) that would
+// otherwise leave the entire page stuck at opacity:0.
+const FALLBACK_MS = 700;
 
 type RevealProps = {
   children: ReactNode;
@@ -39,6 +45,14 @@ export function Reveal({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount, once: !repeat });
   const { shouldReduce } = useMotionPreference();
+  const [fallback, setFallback] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setFallback(true), FALLBACK_MS);
+    return () => clearTimeout(t);
+  }, []);
+
+  const visible = inView || fallback;
 
   const Component = motion[as] as typeof motion.div;
 
@@ -46,7 +60,7 @@ export function Reveal({
     <Component
       ref={ref}
       initial={{ opacity: 0, y: shouldReduce ? 0 : distance }}
-      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      animate={visible ? { opacity: 1, y: 0 } : undefined}
       transition={{
         duration: shouldReduce ? 0.2 : 0.8,
         delay,
