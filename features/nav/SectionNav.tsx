@@ -82,12 +82,12 @@ export function SectionNav() {
         className="relative mx-auto flex h-16 max-w-[1600px] items-center justify-center px-6 md:px-12"
         aria-label="Sections"
       >
-        <ul className="flex items-center gap-6 overflow-x-auto whitespace-nowrap md:gap-10">
+        <ul className="flex items-center gap-3 overflow-x-auto whitespace-nowrap md:gap-6">
           {LINKS.map((l, i) => (
-            <li key={l.href} className="flex items-center gap-6 md:gap-10">
+            <li key={l.href} className="flex items-center gap-3 md:gap-6">
               <Link
                 href={l.href}
-                className="mono-caption text-[length:var(--text-mono-label)] text-[color:var(--color-sand-stone)] hover:text-white transition-colors"
+                className="mono-caption text-[length:var(--text-mono-label)] relative isolate inline-flex items-center overflow-hidden px-3 py-2 rounded-[3px] text-[color:var(--color-sand-stone)] hover:text-[color:var(--color-dark-bark)] focus-visible:text-[color:var(--color-dark-bark)] transition-colors duration-[420ms] delay-[260ms] ease-[var(--ease-precise)] before:content-[''] before:absolute before:left-1/2 before:top-1/2 before:-ml-1 before:-mt-1 before:h-2 before:w-2 before:-z-10 before:rounded-full before:bg-[color:var(--color-sand-stone)] before:scale-0 hover:before:scale-[24] focus-visible:before:scale-[24] before:transition-transform before:duration-[900ms] before:ease-[cubic-bezier(0.7,0,0.25,1)]"
               >
                 {l.label}
               </Link>
