@@ -58,10 +58,10 @@ export function Nav() {
         >
           {/* Mobile: compact lockup; desktop: prominent */}
           <span className="md:hidden">
-            <Lockup tone="light" height={56} priority />
+            <Lockup tone="light" height={72} priority />
           </span>
           <span className="hidden md:inline">
-            <Lockup tone="light" height={80} priority />
+            <Lockup tone="light" height={96} priority />
           </span>
         </Link>
 
