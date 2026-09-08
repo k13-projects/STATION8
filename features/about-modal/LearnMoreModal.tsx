@@ -96,7 +96,7 @@ export function LearnMoreModal() {
                 vibrant atmosphere, there&rsquo;s something for everyone at STATION8.
               </Body>
               <Body className="mt-2.5 text-[0.8125rem] leading-[1.6] text-[color:var(--color-dark-bark)]/80">
-                Parking is free in the Theater District garage connected to our building. Welcome.
+                Welcome.
               </Body>
             </section>
 

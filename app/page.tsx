@@ -286,13 +286,8 @@ export default function Home() {
                   </strong>
                 </Body>
               </Reveal>
-              <Reveal delay={0.4}>
-                <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/75">
-                  Parking is free in the Theater District garage connected to our building.
-                </Body>
-              </Reveal>
 
-              <Reveal delay={0.5}>
+              <Reveal delay={0.4}>
                 <div className="pt-4">
                   <Button
                     href="https://maps.apple.com/?q=STATION8+Public+Market+La+Jolla"
