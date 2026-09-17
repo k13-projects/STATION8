@@ -5,13 +5,13 @@ import { SectionChevron } from "@/design-system/primitives/SectionChevron";
 import { SectionLabel } from "@/design-system/primitives/SectionLabel";
 import { Body, DisplayLG, DisplayXL, H1, MonoLabel } from "@/design-system/primitives/Typography";
 import { LearnMoreModal } from "@/features/about-modal/LearnMoreModal";
+import { BookingsModal } from "@/features/bookings/BookingsModal";
 import { Footer } from "@/features/contact/Footer";
 import { EventDateCard } from "@/features/events/EventDateCard";
 import { Nav } from "@/features/nav/Nav";
 import { SectionNav } from "@/features/nav/SectionNav";
 import { VendorArchCard } from "@/features/vendors/VendorArchCard";
 import { VENDORS } from "@/features/vendors/vendors";
-import { Magnetic } from "@/motion/primitives/Magnetic";
 import { Reveal } from "@/motion/primitives/Reveal";
 import { SplitReveal } from "@/motion/primitives/SplitReveal";
 
@@ -221,15 +221,7 @@ export default function Home() {
                   </Body>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <Magnetic>
-                    <Button
-                      href="#bookings-form"
-                      variant="primary"
-                      className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
-                    >
-                      Get in Touch
-                    </Button>
-                  </Magnetic>
+                  <BookingsModal />
                 </Reveal>
               </div>
             </div>
