@@ -9,10 +9,18 @@ import { MotionToggle } from "./MotionToggle";
  * LET'S CONNECT heading and inquiry links on the right.
  */
 
+const CONTACT_EMAIL = "info@station8pm.com";
+
 const INQUIRIES = [
-  { label: "General inquiries", href: "mailto:hello@station8.example" },
-  { label: "Vendor opportunities", href: "mailto:vendors@station8.example" },
-  { label: "Careers", href: "mailto:careers@station8.example" },
+  {
+    label: "General inquiries",
+    href: `mailto:${CONTACT_EMAIL}?subject=General%20inquiry`,
+  },
+  {
+    label: "Vendor opportunities",
+    href: `mailto:${CONTACT_EMAIL}?subject=Vendor%20opportunity`,
+  },
+  { label: "Careers", href: `mailto:${CONTACT_EMAIL}?subject=Careers` },
 ];
 
 const LEGAL_LINKS = [
@@ -75,7 +83,7 @@ export function Footer() {
           </ul>
           <div className="pt-2">
             <Link
-              href="https://instagram.com/station8"
+              href="https://www.instagram.com/station8publicmarket"
               aria-label="STATION8 on Instagram"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--color-sand-stone)]/80 transition-colors hover:text-white"
             >
