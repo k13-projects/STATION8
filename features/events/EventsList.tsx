@@ -6,7 +6,8 @@ import { Body } from "@/design-system/primitives/Typography";
 import { Reveal } from "@/motion/primitives/Reveal";
 
 import { EventDateCard } from "./EventDateCard";
-import { fetchEvents, normalizeUrl, type EventItem } from "@/lib/events";
+import { classifyEvents, type DatedEvent } from "@/lib/event-lifecycle";
+import { fetchEvents, normalizeUrl } from "@/lib/events";
 
 /**
  * The events row, fed by the published Google Sheet (see lib/events.ts).
@@ -29,13 +30,15 @@ import { fetchEvents, normalizeUrl, type EventItem } from "@/lib/events";
  * page already carries a Coming Soon stamp that says which.
  */
 export function EventsList() {
-  const [events, setEvents] = useState<EventItem[]>([]);
+  const [events, setEvents] = useState<DatedEvent[]>([]);
 
   useEffect(() => {
     let active = true;
     fetchEvents()
       .then((rows) => {
-        if (active) setEvents(rows);
+        // Sorted and filtered here rather than in the sheet, so the client can
+        // type rows in any order and never has to delete a finished one.
+        if (active) setEvents(classifyEvents(rows));
       })
       .catch(() => {
         /* leave it empty: the honest line below is the right answer either way */
@@ -73,10 +76,15 @@ export function EventsList() {
       {events.map((e, i) => {
         const href = normalizeUrl(e.url ?? "");
         const card = (
-          <EventDateCard month={e.month} day={Number(e.day)} title={e.title} />
+          <EventDateCard
+            month={e.month}
+            day={Number(e.day)}
+            title={e.title}
+            past={e.state === "past"}
+          />
         );
         return (
-          <Reveal key={`${e.month}-${e.day}-${e.title}`} delay={i * 0.08}>
+          <Reveal key={`${e.timestamp}-${e.title}`} delay={i * 0.08}>
             {href ? (
               <a
                 href={href}
