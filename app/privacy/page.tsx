@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
       <address className="legal-address">
         STATION8 Public Market
         <br />
-        9165 Theatre District Dr
+        Scholars Dr S & Revelle College Dr
         <br />
         La Jolla, CA 92037
         <br />

@@ -33,11 +33,24 @@ import { SplitReveal } from "@/motion/primitives/SplitReveal";
  *   11. CONTACT — Olive + pattern, big PSM badge (Footer component)
  */
 
-const EVENTS = [
-  { month: "JUNE", day: 4, title: "Opening Week · Tasting Pass" },
-  { month: "JUNE", day: 14, title: "Vendor Showcase · La Jolla Market" },
-  { month: "JUNE", day: 21, title: "Summer Solstice Long Table Dinner" },
-];
+/**
+ * The events calendar.
+ *
+ * Emptied 2026-09-18. The three entries here were design placeholders written
+ * during the build, dated in June, and they went live and stayed live: on
+ * 18 September a public site for a market that has not opened was advertising
+ * "Opening Week - Tasting Pass" on 4 June. A guest could have planned around
+ * them. Invented dates on a live page are worse than an empty calendar, so the
+ * section says what is true until real events arrive.
+ *
+ * Add a real one and the cards come back on their own; the section renders the
+ * honest line below only while this list is empty. Lorena asked for a link to
+ * edit these herself on the same day, which is a fair ask and a separate piece
+ * of work: there is no CMS on this project, the `sanity/schemas` folder was
+ * scaffolded and never wired to a studio, so today events change here, in the
+ * code.
+ */
+const EVENTS: { month: string; day: number; title: string }[] = [];
 
 export default function Home() {
   return (
@@ -173,13 +186,26 @@ export default function Home() {
                 <SectionLabel tone="light">Events</SectionLabel>
               </div>
             </Reveal>
-            <div className="grid gap-6 md:grid-cols-3">
-              {EVENTS.map((e, i) => (
-                <Reveal key={`${e.month}-${e.day}`} delay={i * 0.08}>
-                  <EventDateCard month={e.month} day={e.day} title={e.title} />
-                </Reveal>
-              ))}
-            </div>
+            {EVENTS.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-3">
+                {EVENTS.map((e, i) => (
+                  <Reveal key={`${e.month}-${e.day}`} delay={i * 0.08}>
+                    <EventDateCard month={e.month} day={e.day} title={e.title} />
+                  </Reveal>
+                ))}
+              </div>
+            ) : (
+              /* The section keeps its place rather than disappearing: the nav
+                 carries an EVENTS link, and a link that scrolls to nothing is a
+                 worse answer than a short honest one. */
+              <Reveal>
+                <Body className="max-w-[46ch] text-[color:var(--color-sand-stone)]/85">
+                  Our calendar opens with the market. Tastings, vendor nights and
+                  long table dinners will be listed here as soon as the dates are
+                  set.
+                </Body>
+              </Reveal>
+            )}
           </div>
         </section>
 
@@ -286,7 +312,7 @@ export default function Home() {
                     <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
                   </svg>
                   <MonoLabel className="font-[family-name:var(--font-sans)] text-lg font-semibold">
-                    9165 Theatre District Dr
+                    Scholars Dr S & Revelle College Dr
                     <br />
                     La Jolla, CA 92037
                   </MonoLabel>
@@ -313,7 +339,7 @@ export default function Home() {
               <Reveal delay={0.4}>
                 <div className="pt-4">
                   <Button
-                    href="https://maps.apple.com/?q=9165+Theatre+District+Dr,+La+Jolla,+CA+92037"
+                    href="https://maps.apple.com/?q=Scholars%20Dr%2C%20South%20%26%2C%20Revelle%20College%20Drive%2C%20La%20Jolla%2C%20CA%2092037"
                     variant="primary"
                     className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
                   >
