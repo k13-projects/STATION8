@@ -235,7 +235,7 @@ export default function Home() {
           className="relative bg-[color:var(--color-white)] text-[color:var(--color-dark-bark)]"
         >
           <div className="grid md:min-h-[640px] md:grid-cols-2">
-            <div className="flex flex-col justify-center space-y-6 px-6 py-16 md:space-y-8 md:px-14 md:py-28 lg:pl-24 lg:pr-20">
+            <div className="relative flex flex-col justify-center space-y-6 px-6 py-16 md:space-y-8 md:px-14 md:py-28 lg:pl-24 lg:pr-20">
               <Reveal>
                 <div className="flex items-center gap-6">
                   <span
@@ -271,27 +271,42 @@ export default function Home() {
                 </div>
               </Reveal>
 
+              {/*
+                The stamp, struck into the open space beside the heading (Kazim,
+                2026-09-17). Absolute from `xl` only, and that breakpoint is
+                measured rather than picked: the corner it strikes into is
+                whatever the heading leaves, and the heading is 304px wide at
+                every width. At 1280 the column is 640 and the stamp clears it;
+                at 1024 and below it lands squarely on "HOW TO GET TO" and both
+                become unreadable. So under `xl` it stays in the flow, between
+                the address and the hours it qualifies, where it reads as a
+                large tilted stamp rather than a struck one.
+
+                One element either way, rendered once: two copies would be two
+                things to keep in step.
+              */}
+              <span
+                aria-hidden="true"
+                className="coming-soon-stamp pointer-events-none relative self-start text-[length:var(--text-mono-label)] md:text-base xl:absolute xl:right-16 xl:top-52 xl:text-lg"
+              >
+                <span aria-hidden="true" className="coming-soon-stamp__dot" />
+                Coming Soon
+              </span>
               <Reveal delay={0.3}>
-                <div className="space-y-3">
-                  {/* The hall has not opened yet. Daily hours written in the
-                      present tense read as "open now", which is what the client
-                      saw on the live site, so the badge leads and the hours are
-                      explicitly the ones we open on. */}
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-olive)]/35 bg-[color:var(--color-olive)]/10 px-3.5 py-1.5 font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.18em] text-[color:var(--color-olive)]">
-                    <span
-                      aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-olive)]"
-                    />
-                    Coming Soon
-                  </span>
-                  <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/80">
-                    When we open, the market runs daily from
-                    <br />
-                    <strong className="text-[color:var(--color-dark-bark)]">
-                      7:00 am to 9:00 pm
-                    </strong>
-                  </Body>
-                </div>
+                <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/80">
+                  {/* The hall has not opened yet. Daily hours in the present
+                      tense read as "open now", which is what the client saw on
+                      the live site. The stamp above is decorative (aria-hidden,
+                      because "Coming Soon" struck across a corner is a picture
+                      of this sentence, not a second fact), so this sentence
+                      carries the status for a screen reader on its own. */}
+                  <span className="sr-only">Coming soon. </span>
+                  When we open, the market runs daily from
+                  <br />
+                  <strong className="text-[color:var(--color-dark-bark)]">
+                    7:00 am to 9:00 pm
+                  </strong>
+                </Body>
               </Reveal>
 
               <Reveal delay={0.4}>
