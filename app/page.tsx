@@ -254,6 +254,28 @@ export default function Home() {
                 <SplitReveal text="How to get to STATION8" stagger={0.05} />
               </H1>
 
+              {/*
+                The stamp sits directly under the heading it qualifies (Kazim,
+                2026-09-18), square rather than tilted. The angled version was
+                struck into the corner beside the heading, which only worked
+                above 1280 and had to fall back into the flow below it; sitting
+                under the heading, it is the same element at every width and
+                needs no breakpoint at all.
+
+                Square also earns it the reading order it now has: at an angle
+                it was decoration beside the title, upright and directly under
+                it, it is the subtitle, which is what the page actually means.
+              */}
+              <Reveal delay={0.15}>
+                <span
+                  aria-hidden="true"
+                  className="coming-soon-stamp pointer-events-none relative text-base md:text-lg"
+                >
+                  <span aria-hidden="true" className="coming-soon-stamp__dot" />
+                  Coming Soon
+                </span>
+              </Reveal>
+
               <Reveal delay={0.2}>
                 <div className="flex items-start gap-3 pt-2">
                   <svg
@@ -271,27 +293,6 @@ export default function Home() {
                 </div>
               </Reveal>
 
-              {/*
-                The stamp, struck into the open space beside the heading (Kazim,
-                2026-09-17). Absolute from `xl` only, and that breakpoint is
-                measured rather than picked: the corner it strikes into is
-                whatever the heading leaves, and the heading is 304px wide at
-                every width. At 1280 the column is 640 and the stamp clears it;
-                at 1024 and below it lands squarely on "HOW TO GET TO" and both
-                become unreadable. So under `xl` it stays in the flow, between
-                the address and the hours it qualifies, where it reads as a
-                large tilted stamp rather than a struck one.
-
-                One element either way, rendered once: two copies would be two
-                things to keep in step.
-              */}
-              <span
-                aria-hidden="true"
-                className="coming-soon-stamp pointer-events-none relative self-start text-[length:var(--text-mono-label)] md:text-base xl:absolute xl:right-16 xl:top-52 xl:text-lg"
-              >
-                <span aria-hidden="true" className="coming-soon-stamp__dot" />
-                Coming Soon
-              </span>
               <Reveal delay={0.3}>
                 <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/80">
                   {/* The hall has not opened yet. Daily hours in the present

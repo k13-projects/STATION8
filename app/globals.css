@@ -150,10 +150,14 @@ body {
 }
 
 /* ── Coming Soon stamp (Where We Are) ──
-   Kazim, 2026-09-17: the badge was too quiet and sat under the address in the
-   flow. It is a rubber stamp now, struck at an angle across the open space
-   beside the heading, and it catches the light every five seconds so the eye
-   comes back to it without anything moving on the page.
+   Kazim, 2026-09-17: the badge was too quiet. It is a rubber stamp now, and it
+   catches the light every five seconds so the eye comes back to it without
+   anything moving on the page.
+
+   Kazim, 2026-09-18: square, not tilted, and directly under the heading. The
+   angle was the part that forced everything else, an absolute position, a
+   measured breakpoint and a fallback below it; upright under the heading it is
+   one element at every width.
 
    Built as a stamp rather than a bigger pill because a pill reads as UI, and UI
    in the middle of an editorial layout reads as a button nobody can press. A
@@ -164,21 +168,19 @@ body {
    an olive stamp would read as another control. Rust appears nowhere else on
    this page, which is the whole job.
 
-   Angle lives here rather than in a utility class because the shine sweep has
-   to run inside the rotated box; rotating a wrapper instead would send the
-   highlight across the screen at the wrong angle. */
+   The shine still sweeps on a skew rather than straight down: a highlight
+   crossing an upright box at 90 degrees reads as a loading bar, and the tilt in
+   the light is what is left of the struck look. */
 .coming-soon-stamp {
-  /* `position` is deliberately NOT set here. The stamp needs a positioned
-     ancestor for its shine, and it gets one from the utilities on the element:
-     `relative` in the stacked phone layout, `md:absolute` once there is a
-     corner to strike. Setting it in this rule looked harmless and silently beat
-     `md:absolute`, because plain CSS outside a layer outranks every Tailwind
-     utility, so the stamp stayed in the flow at every width. */
+  /* `position` is deliberately NOT set here; the `relative` the shine needs is
+     a utility on the element instead. Kept that way after 2026-09-17, when
+     setting it here looked harmless and silently beat the positioning utility
+     next to it: plain CSS outside a layer outranks every Tailwind utility, so
+     the class list read correctly while doing nothing. */
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   overflow: hidden;
-  transform: rotate(-9deg);
   padding: 0.85rem 1.6rem;
   border: 3px solid color-mix(in oklch, var(--color-rust) 72%, transparent);
   border-radius: 6px;
