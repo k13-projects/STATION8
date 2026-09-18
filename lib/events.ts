@@ -36,19 +36,19 @@ export type EventItem = {
 };
 
 /**
- * The published-to-web CSV for STATION8's tab.
+ * The published-to-web CSV for STATION8's events tab. Kazim published it and
+ * sent the URL on 2026-09-18; it is shared with Lorena, who edits it directly.
  *
- * Empty until the sheet exists: publishing a Google Sheet to the web is done
- * from the owner's own Google account, so this is the one part of the pattern
- * that cannot be written from here. While it is empty, `fetchEvents` never
- * fires and the section renders its own honest empty state, which is exactly
- * what it does today, so shipping this early changes nothing on the page.
+ * `gid` selects the tab, so if this sheet ever grows a tab per venue, each site
+ * points at its own gid and they never collide. Publishing the whole document
+ * instead of a single tab silently gives you the first tab only, which is the
+ * trap worth knowing about here.
  *
- * To fill it in: File > Share > Publish to web, pick the STATION8 tab, choose
- * comma-separated values, publish, and paste the URL here. It looks like
- * https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=<tab>&single=true&output=csv
+ * The sheet is the site. When it is empty, as it is today, the section says so
+ * rather than inventing anything to fill the space.
  */
-export const SHEET_CSV_URL = "";
+export const SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlm-t9adUdMm97w0IyXmoAWxGJPv7GrdzMMxjDUFg2yMR45NM91dShmqQCLAei_ksm2dchqlWC1bh9/pub?gid=0&single=true&output=csv";
 
 /** Split one CSV line into trimmed fields, honoring quoted commas. */
 function parseCSVLine(line: string): string[] {

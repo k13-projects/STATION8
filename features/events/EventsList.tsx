@@ -16,10 +16,17 @@ import { fetchEvents, normalizeUrl, type EventItem } from "@/lib/events";
  * cache. This is a client component only because of that fetch; everything it
  * renders is the same markup the server used to render from a constant.
  *
- * Starts empty rather than seeded with sample events. The other two sites seed
- * a hardcoded list, and that is how STATION8 spent three months advertising an
- * Opening Week on 4 June that never existed. An empty calendar that says it is
- * empty costs a client nothing; an invented one costs them a guest who turned up.
+ * Starts empty rather than seeded with sample events, and that is now the rule
+ * on all three sites (Kazim, 2026-09-18). Hardcoded sample events are how this
+ * site spent three months advertising an Opening Week on 4 June that never
+ * existed. An empty calendar that says it is empty costs a client nothing; an
+ * invented one costs them a guest who turned up.
+ *
+ * The empty state is the same on Miramar, Global Fork and here: one honest
+ * line, then a follow button, so a visitor who arrived for events leaves with
+ * somewhere to go. Copy is identical across the three on purpose; the line is
+ * true whether a venue is trading or, as here, has not opened yet, and this
+ * page already carries a Coming Soon stamp that says which.
  */
 export function EventsList() {
   const [events, setEvents] = useState<EventItem[]>([]);
@@ -44,10 +51,19 @@ export function EventsList() {
          EVENTS link, and a link that scrolls to nothing is a worse answer than a
          short honest one. */
       <Reveal>
-        <Body className="max-w-[46ch] text-[color:var(--color-sand-stone)]/85">
-          Our calendar opens with the market. Tastings, vendor nights and long table
-          dinners will be listed here as soon as the dates are set.
-        </Body>
+        <div className="flex flex-col items-start gap-6">
+          <Body className="max-w-[46ch] text-[color:var(--color-sand-stone)]/85">
+            No events scheduled right now. Check back soon.
+          </Body>
+          <a
+            href="https://instagram.com/station8publicmarket"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-[color:var(--color-sand-stone)]/35 px-6 py-3 font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.18em] text-[color:var(--color-sand-stone)] transition hover:bg-[color:var(--color-sand-stone)] hover:text-[color:var(--color-dark-bark)]"
+          >
+            Follow @station8publicmarket for updates
+          </a>
+        </div>
       </Reveal>
     );
   }
