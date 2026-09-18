@@ -101,7 +101,7 @@ const localBusinessJsonLd = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "[Street Address]",
+    streetAddress: "9165 Theatre District Dr",
     addressLocality: "La Jolla",
     addressRegion: "CA",
     postalCode: "92037",

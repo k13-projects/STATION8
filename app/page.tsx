@@ -264,25 +264,40 @@ export default function Home() {
                     <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
                   </svg>
                   <MonoLabel className="font-[family-name:var(--font-sans)] text-lg font-semibold">
+                    9165 Theatre District Dr
+                    <br />
                     La Jolla, CA 92037
                   </MonoLabel>
                 </div>
               </Reveal>
 
               <Reveal delay={0.3}>
-                <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/80">
-                  Our market is open daily from
-                  <br />
-                  <strong className="text-[color:var(--color-dark-bark)]">
-                    7:00 am to 9:00 pm
-                  </strong>
-                </Body>
+                <div className="space-y-3">
+                  {/* The hall has not opened yet. Daily hours written in the
+                      present tense read as "open now", which is what the client
+                      saw on the live site, so the badge leads and the hours are
+                      explicitly the ones we open on. */}
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-olive)]/35 bg-[color:var(--color-olive)]/10 px-3.5 py-1.5 font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.18em] text-[color:var(--color-olive)]">
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-olive)]"
+                    />
+                    Coming Soon
+                  </span>
+                  <Body className="max-w-[40ch] text-[color:var(--color-dark-bark)]/80">
+                    When we open, the market runs daily from
+                    <br />
+                    <strong className="text-[color:var(--color-dark-bark)]">
+                      7:00 am to 9:00 pm
+                    </strong>
+                  </Body>
+                </div>
               </Reveal>
 
               <Reveal delay={0.4}>
                 <div className="pt-4">
                   <Button
-                    href="https://maps.apple.com/?q=STATION8+Public+Market+La+Jolla"
+                    href="https://maps.apple.com/?q=9165+Theatre+District+Dr,+La+Jolla,+CA+92037"
                     variant="primary"
                     className="!rounded-full !bg-[color:var(--color-olive)] !text-[color:var(--color-sand-stone)] !border-[color:var(--color-olive)] hover:!bg-[color:var(--color-dark-bark)]"
                   >
