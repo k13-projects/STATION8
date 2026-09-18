@@ -25,18 +25,35 @@ import type { EventItem } from "./events";
  * cannot disturb the five columns the three live sheets already use. When it is
  * filled in, the date is exact and everything below is arithmetic.
  *
- * When it is blank, the rule is deliberately the dumbest one that can be
- * explained to a client in a sentence: **no year means this year.** The
- * alternative, rolling a long-past date forward to its next occurrence, reads
- * as helpful and is how Global Fork's 1 April "Coming Soon" row would have
- * quietly reappeared as 1 April next year, which is the invented-content
- * problem wearing a different hat. This way a forgotten row ages out on its own
- * after sixty days and stays out.
+ * When it is blank the year is inferred, and the inference has to thread one
+ * needle (Kazim, 2026-09-18: "be smart about it"). Two different rows look
+ * identical and mean opposite things:
  *
- * The cost of that choice, stated plainly because whoever reads this next will
- * hit it: an event typed in December for the coming January needs its Year, or
- * it is read as eleven months ago and never appears. That is what the column is
- * for, and it is why the header should be added to every sheet.
+ *   a January event typed in December     means next year, and must appear
+ *   an April row nobody deleted           means last spring, and must not
+ *
+ * Both are "a month and a day already behind us". What separates them is how
+ * far ahead the next occurrence is. Somebody entering an event without a year
+ * is entering something coming up soon, weeks or a couple of months out, not
+ * something eleven months away. So:
+ *
+ *   1. Try this year. If that date is today, or ahead, or within the sixty-day
+ *      grace behind, use it.
+ *   2. Otherwise it is well behind us, so try next year, and accept that only
+ *      if it falls inside NO_YEAR_LOOKAHEAD_DAYS. A January event read in
+ *      December is twenty days out and passes. An April row read in September
+ *      is nearly seven months out and does not.
+ *   3. Otherwise the row is stale. Drop it.
+ *
+ * The window is the whole mechanism, so it is chosen with the failure modes in
+ * mind rather than for neatness. Too long and a forgotten row quietly
+ * reappears as a date nobody planned, which is invented content and invisible.
+ * Too short and a real event does not show, which the client notices within a
+ * day and tells us about. The second failure is self-correcting and the first
+ * is not, so the window stays deliberately tight.
+ *
+ * Filling in Year removes all of this. It is the answer for anything further
+ * out than the window, and it is why the header belongs on every sheet.
  *
  * ── Time zone ──
  *
@@ -47,6 +64,14 @@ import type { EventItem } from "./events";
 
 /** How long a finished event keeps its place on the page. */
 export const PAST_EVENT_GRACE_DAYS = 60;
+
+/**
+ * With no Year given, how far ahead next year's occurrence may fall before the
+ * row is treated as stale rather than upcoming. See the note above: this is the
+ * line between "typed in December for January" and "left in the sheet since
+ * April".
+ */
+export const NO_YEAR_LOOKAHEAD_DAYS = 120;
 
 /** The venues are all in California. */
 const VENUE_TIME_ZONE = "America/Los_Angeles";
@@ -131,15 +156,31 @@ export function classifyEvents(rows: EventItem[], now: Date = new Date()): Dated
     if (month === null || !Number.isInteger(day) || day < 1 || day > 31) continue;
 
     const rawYear = String(row.year ?? "").trim();
-    const year = rawYear ? Number(rawYear) : today.year;
-    if (!Number.isInteger(year) || year < 2000 || year > 2999) continue;
 
-    const timestamp = dayStamp(year, month, day);
-    // A day-overflow, e.g. FEBRUARY 30, lands in the next month. Drop it rather
-    // than silently move the event.
-    if (new Date(timestamp).getUTCMonth() !== month) continue;
-
-    if (timestamp < cutoff) continue;
+    let timestamp: number;
+    if (rawYear) {
+      const year = Number(rawYear);
+      if (!Number.isInteger(year) || year < 2000 || year > 2999) continue;
+      timestamp = dayStamp(year, month, day);
+      // A day-overflow, e.g. FEBRUARY 30, lands in the next month. Drop it
+      // rather than silently move the event.
+      if (new Date(timestamp).getUTCMonth() !== month) continue;
+      if (timestamp < cutoff) continue;
+    } else {
+      const thisYear = dayStamp(today.year, month, day);
+      const nextYear = dayStamp(today.year + 1, month, day);
+      // Check the overflow on the candidate that will actually be used; a leap
+      // day is valid in one of these years and not the other.
+      if (thisYear >= cutoff) {
+        if (new Date(thisYear).getUTCMonth() !== month) continue;
+        timestamp = thisYear;
+      } else if (nextYear <= todayStamp + NO_YEAR_LOOKAHEAD_DAYS * DAY_MS) {
+        if (new Date(nextYear).getUTCMonth() !== month) continue;
+        timestamp = nextYear;
+      } else {
+        continue;
+      }
+    }
 
     dated.push({
       ...row,

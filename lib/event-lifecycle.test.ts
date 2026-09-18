@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { classifyEvents, monthIndex, PAST_EVENT_GRACE_DAYS } from "./event-lifecycle";
+import {
+  classifyEvents,
+  monthIndex,
+  NO_YEAR_LOOKAHEAD_DAYS,
+  PAST_EVENT_GRACE_DAYS,
+} from "./event-lifecycle";
 import type { EventItem } from "./events";
 
 /**
@@ -87,23 +92,51 @@ describe("classifyEvents", () => {
       expect(out[0].state).toBe("upcoming");
     });
 
-    it("reads a blank year as the current year", () => {
-      // April 2026 is nearly six months past, so it is gone, not resurrected
-      // as April 2027. This is the Global Fork stale-row case exactly.
+    it("reads a blank year as this year when the date still makes sense", () => {
+      const out = classifyEvents([ev("NOVEMBER", "14", "Later this year")], NOW);
+      expect(out[0].state).toBe("upcoming");
+    });
+
+    it("drops a stale row rather than resurrecting it as next year", () => {
+      // April 2026 is nearly six months past. Next April is nearly seven months
+      // ahead, well outside the lookahead, so the row is stale and goes. This
+      // is the Global Fork case exactly.
       expect(classifyEvents([ev("APRIL", "1", "Stale")], NOW)).toHaveLength(0);
+      expect(classifyEvents([ev("MAY", "1", "Also stale")], NOW)).toHaveLength(0);
     });
 
-    it("does not roll a long-past date forward into next year", () => {
-      const out = classifyEvents([ev("MAY", "1", "Also stale")], NOW);
-      expect(out).toHaveLength(0);
-    });
-
-    it("lets a Year rescue a January event entered in December", () => {
+    it("rolls a January event typed in December into next year, with no Year column", () => {
+      // The case that makes the naive "blank means this year" rule wrong: in
+      // December, January is twenty days away, not eleven months behind.
       const december = new Date("2026-12-20T19:00:00Z");
-      expect(classifyEvents([ev("JANUARY", "10", "No year")], december)).toHaveLength(0);
-      const withYear = classifyEvents([ev("JANUARY", "10", "With year", "2027")], december);
-      expect(withYear).toHaveLength(1);
-      expect(withYear[0].state).toBe("upcoming");
+      const out = classifyEvents([ev("JANUARY", "10", "Winter Market")], december);
+      expect(out).toHaveLength(1);
+      expect(out[0].state).toBe("upcoming");
+      expect(new Date(out[0].timestamp).getUTCFullYear()).toBe(2027);
+    });
+
+    it("still drops a genuinely stale row when read in December", () => {
+      // June is six months behind and next June is five and a half months
+      // ahead, outside the window, so the wrap-forward does not rescue it.
+      const december = new Date("2026-12-20T19:00:00Z");
+      expect(classifyEvents([ev("JUNE", "5", "Old")], december)).toHaveLength(0);
+    });
+
+    it("draws the wrap-forward line at the lookahead window", () => {
+      expect(NO_YEAR_LOOKAHEAD_DAYS).toBe(120);
+      // 20 Dec 2026 + 120 days is 19 April 2027.
+      const december = new Date("2026-12-20T19:00:00Z");
+      expect(classifyEvents([ev("APRIL", "19", "Just inside")], december)).toHaveLength(1);
+      expect(classifyEvents([ev("APRIL", "20", "Just outside")], december)).toHaveLength(0);
+    });
+
+    it("an explicit Year always wins over the inference", () => {
+      // April with no year is stale in September; April 2027 stated outright is
+      // a real future event and must survive.
+      expect(classifyEvents([ev("APRIL", "1", "Stale")], NOW)).toHaveLength(0);
+      const stated = classifyEvents([ev("APRIL", "1", "Planned", "2027")], NOW);
+      expect(stated).toHaveLength(1);
+      expect(stated[0].state).toBe("upcoming");
     });
   });
 
@@ -121,6 +154,7 @@ describe("classifyEvents", () => {
       // Date.UTC would turn 30 February into 1 or 2 March without this guard.
       expect(classifyEvents([ev("FEBRUARY", "30", "", "2027")], NOW)).toHaveLength(0);
       expect(classifyEvents([ev("OCTOBER", "32")], NOW)).toHaveLength(0);
+      expect(classifyEvents([ev("FEBRUARY", "30", "No year either")], NOW)).toHaveLength(0);
     });
 
     it("drops a year that is not a year", () => {
