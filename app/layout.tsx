@@ -3,6 +3,7 @@ import { Big_Shoulders_Stencil, Inter, JetBrains_Mono } from "next/font/google";
 import { MotionPreferenceProvider } from "@/motion/MotionPreferenceProvider";
 import { SectionColorMorph } from "@/motion/SectionColorMorph";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site-url";
 
 /**
  * Fallback web fonts — live until Nitti + Industry Inc licenses clear.
@@ -29,8 +30,6 @@ const fontDisplay = Big_Shoulders_Stencil({
   display: "swap",
   weight: ["500", "700", "900"],
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
