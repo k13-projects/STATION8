@@ -11,7 +11,9 @@
  * Added here 2026-09-18, after Lorena asked for "the link to edit the events"
  * for STATION8 and the honest answer was that this site never got one.
  *
- * Columns, row 1 is the header: Month | Day | Title | Description | URL
+ * Columns, row 1 is the header: Month | Day | Title | Description | URL | Year
+ * (Year is optional and was appended in September 2026; a sheet with only the
+ * original five columns still works, and every date in it is read as this year.)
  *
  * Deliberately client-side rather than a server fetch with a short revalidate:
  * immediacy is the whole promise of this pattern. The client edits the sheet,
@@ -33,6 +35,12 @@ export type EventItem = {
   title: string;
   description?: string;
   url?: string;
+  /**
+   * Optional sixth column, appended after URL so the five columns the live
+   * sheets already use are untouched. Blank means the current year; see
+   * lib/event-lifecycle.ts for why that rule and not a cleverer one.
+   */
+  year?: string;
 };
 
 /**
@@ -87,6 +95,7 @@ export function parseEventsCSV(csv: string): EventItem[] {
           title: cols[2],
           description: cols[3] || "",
           url: cols[4] || "",
+          year: cols[5] || "",
         };
       }
       return null;

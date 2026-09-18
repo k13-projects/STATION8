@@ -23,8 +23,19 @@ describe("parseEventsCSV", () => {
         title: "Opening Week",
         description: "Tastings all day",
         url: "https://example.com",
+        year: "",
       },
     ]);
+  });
+
+  it("reads the optional Year column when the sheet has one", () => {
+    const rows = parseEventsCSV(`${HEADER},Year\nJANUARY,10,Winter Market,,,2027`);
+    expect(rows[0].year).toBe("2027");
+  });
+
+  it("leaves year empty on a sheet that still has only five columns", () => {
+    const rows = parseEventsCSV(`${HEADER}\nOCTOBER,3,Opening Week,,`);
+    expect(rows[0].year).toBe("");
   });
 
   it("keeps a comma that lives inside quotes", () => {
