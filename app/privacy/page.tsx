@@ -143,9 +143,9 @@ export default function PrivacyPolicyPage() {
       <address className="legal-address">
         STATION8 Public Market
         <br />
-        [Street Address]
+        9165 Theatre District Dr
         <br />
-        La Jolla, CA [ZIP]
+        La Jolla, CA 92037
         <br />
         United States
       </address>
