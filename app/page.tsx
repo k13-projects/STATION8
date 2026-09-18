@@ -7,7 +7,7 @@ import { Body, DisplayLG, DisplayXL, H1, MonoLabel } from "@/design-system/primi
 import { LearnMoreModal } from "@/features/about-modal/LearnMoreModal";
 import { BookingsModal } from "@/features/bookings/BookingsModal";
 import { Footer } from "@/features/contact/Footer";
-import { EventDateCard } from "@/features/events/EventDateCard";
+import { EventsList } from "@/features/events/EventsList";
 import { Nav } from "@/features/nav/Nav";
 import { SectionNav } from "@/features/nav/SectionNav";
 import { VendorArchCard } from "@/features/vendors/VendorArchCard";
@@ -33,24 +33,6 @@ import { SplitReveal } from "@/motion/primitives/SplitReveal";
  *   11. CONTACT — Olive + pattern, big PSM badge (Footer component)
  */
 
-/**
- * The events calendar.
- *
- * Emptied 2026-09-18. The three entries here were design placeholders written
- * during the build, dated in June, and they went live and stayed live: on
- * 18 September a public site for a market that has not opened was advertising
- * "Opening Week - Tasting Pass" on 4 June. A guest could have planned around
- * them. Invented dates on a live page are worse than an empty calendar, so the
- * section says what is true until real events arrive.
- *
- * Add a real one and the cards come back on their own; the section renders the
- * honest line below only while this list is empty. Lorena asked for a link to
- * edit these herself on the same day, which is a fair ask and a separate piece
- * of work: there is no CMS on this project, the `sanity/schemas` folder was
- * scaffolded and never wired to a studio, so today events change here, in the
- * code.
- */
-const EVENTS: { month: string; day: number; title: string }[] = [];
 
 export default function Home() {
   return (
@@ -186,26 +168,7 @@ export default function Home() {
                 <SectionLabel tone="light">Events</SectionLabel>
               </div>
             </Reveal>
-            {EVENTS.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-3">
-                {EVENTS.map((e, i) => (
-                  <Reveal key={`${e.month}-${e.day}`} delay={i * 0.08}>
-                    <EventDateCard month={e.month} day={e.day} title={e.title} />
-                  </Reveal>
-                ))}
-              </div>
-            ) : (
-              /* The section keeps its place rather than disappearing: the nav
-                 carries an EVENTS link, and a link that scrolls to nothing is a
-                 worse answer than a short honest one. */
-              <Reveal>
-                <Body className="max-w-[46ch] text-[color:var(--color-sand-stone)]/85">
-                  Our calendar opens with the market. Tastings, vendor nights and
-                  long table dinners will be listed here as soon as the dates are
-                  set.
-                </Body>
-              </Reveal>
-            )}
+            <EventsList />
           </div>
         </section>
 
