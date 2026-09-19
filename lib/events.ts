@@ -80,18 +80,27 @@ function parseCSVLine(line: string): string[] {
 
 /**
  * Parse the published-sheet CSV into events. Skips the header row and any row
- * missing Month, Day or Title, because a half-filled row in a spreadsheet is
- * someone mid-thought, not an event.
+ * missing Month or Title, because a half-filled row in a spreadsheet is
+ * someone mid-thought, not an event. Whether the date makes sense is decided
+ * later, by the lifecycle, which is the part that knows what a date is.
  */
 export function parseEventsCSV(csv: string): EventItem[] {
   const lines = csv.split(/\r?\n/).slice(1);
   return lines
     .map((line): EventItem | null => {
       const cols = parseCSVLine(line);
-      if (cols.length >= 3 && cols[0] && cols[1] && cols[2]) {
+      // Month and Title, not Day. The day can legitimately live inside the
+      // Month cell ("10/1/2026"), and deciding whether a row is a real event
+      // is the lifecycle's job, not the CSV reader's: it knows what a date is.
+      // The legend rows pasted at the bottom of the sheet are still dropped
+      // here, because they put text in column A and leave Title empty.
+      if (cols.length >= 3 && cols[0] && cols[2]) {
         return {
+          // cols[0] and cols[2] are guaranteed by the check above; the rest
+          // may be missing entirely on a short row, which is allowed now that
+          // the day can live inside the Month cell.
           month: cols[0],
-          day: cols[1],
+          day: cols[1] ?? "",
           title: cols[2],
           description: cols[3] || "",
           url: cols[4] || "",
