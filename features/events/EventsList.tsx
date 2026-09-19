@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { Button } from "@/design-system/primitives/Button";
 import { Body } from "@/design-system/primitives/Typography";
 import { Reveal } from "@/motion/primitives/Reveal";
 
@@ -54,18 +55,32 @@ export function EventsList() {
          EVENTS link, and a link that scrolls to nothing is a worse answer than a
          short honest one. */
       <Reveal>
-        <div className="flex flex-col items-start gap-6">
+        {/* Centred, and matching Miramar and Global Fork, which both centre
+            theirs. Kazim, 2026-09-18. */}
+        <div className="flex flex-col items-center gap-6 text-center">
           <Body className="max-w-[46ch] text-[color:var(--color-sand-stone)]/85">
             No events scheduled right now. Check back soon.
           </Body>
-          <a
+          {/*
+            The house Button, primary, rather than the hand-rolled outline this
+            used to be. That outline was sand-stone text inside a 35% sand-stone
+            border on the olive ground, which is barely there: its only readable
+            state was hover, and a button you have to touch before you can read
+            it is not a button. Primary is filled sand-stone with dark-bark text
+            and already carries its own distinct hover, to --color-may.
+
+            Pill, like the Go Now button further down the page, so the two CTAs
+            on this site are the same object.
+          */}
+          <Button
             href="https://instagram.com/station8publicmarket"
+            variant="primary"
+            className="!rounded-full"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-[color:var(--color-sand-stone)]/35 px-6 py-3 font-[family-name:var(--font-mono)] text-[length:var(--text-mono-label)] uppercase tracking-[0.18em] text-[color:var(--color-sand-stone)] transition hover:bg-[color:var(--color-sand-stone)] hover:text-[color:var(--color-dark-bark)]"
           >
             Follow @station8publicmarket for updates
-          </a>
+          </Button>
         </div>
       </Reveal>
     );
