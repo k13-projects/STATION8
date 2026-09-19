@@ -77,7 +77,7 @@ export function EventsList() {
         const href = normalizeUrl(e.url ?? "");
         const card = (
           <EventDateCard
-            month={e.month}
+            month={e.monthLabel}
             day={Number(e.day)}
             title={e.title}
             past={e.state === "past"}

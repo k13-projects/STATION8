@@ -82,6 +82,16 @@ export type DatedEvent = EventItem & {
   /** Midnight of the event's day, as a UTC timestamp, for comparison only. */
   timestamp: number;
   state: EventState;
+  /**
+   * The month as the card should print it, always the full name in capitals,
+   * whatever was typed in the sheet.
+   *
+   * Without this the card prints the raw cell, so a row typed as 10 renders a
+   * date tab reading "10 / 1", which is not a date anybody reads at a glance.
+   * Now 10, Oct and OCTOBER all draw OCTOBER, and the client can type whichever
+   * they prefer without the page looking different because of it.
+   */
+  monthLabel: string;
 };
 
 const MONTHS = [
@@ -100,13 +110,29 @@ const MONTHS = [
 ];
 
 /**
- * Month name to 0-11. Accepts what people actually type: "APRIL", "april",
- * "Apr", "SEPT". Returns null for anything it cannot place, which is how a
- * typo drops one row instead of shifting the whole calendar by a month.
+ * Month to 0-11. Accepts what people actually type.
+ *
+ * Names, long or short, in any case: "APRIL", "april", "Apr", "SEPT", "Dec.".
+ *
+ * And numbers, 1 to 12, with or without a leading zero. That was missing at
+ * first and it cost three events on the day the sheet went live: the column is
+ * headed "Month", so Kazim typed 10, 11 and 12, which is an entirely
+ * reasonable reading of a column called Month, and all three rows silently
+ * vanished. A parser that only accepts the format its author had in mind is a
+ * trap for everyone else.
+ *
+ * Returns null for anything it cannot place, which is how a typo drops one row
+ * instead of shifting the whole calendar by a month.
  */
 export function monthIndex(raw: string): number | null {
-  const m = raw.trim().toLowerCase().replace(/\.$/, "");
+  const m = String(raw ?? "").trim().toLowerCase().replace(/\.$/, "");
   if (!m) return null;
+
+  if (/^\d{1,2}$/.test(m)) {
+    const n = Number(m);
+    return n >= 1 && n <= 12 ? n - 1 : null;
+  }
+
   const exact = MONTHS.indexOf(m);
   if (exact !== -1) return exact;
   const prefixed = MONTHS.findIndex((name) => name.startsWith(m) && m.length >= 3);
@@ -186,6 +212,7 @@ export function classifyEvents(rows: EventItem[], now: Date = new Date()): Dated
       ...row,
       timestamp,
       state: timestamp >= todayStamp ? "upcoming" : "past",
+      monthLabel: (MONTHS[month] ?? "").toUpperCase(),
     });
   }
 
