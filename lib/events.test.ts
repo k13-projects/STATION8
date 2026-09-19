@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { classifyEvents } from "./event-lifecycle";
 import { normalizeUrl, parseEventsCSV, SHEET_CSV_URL } from "./events";
 
 /**
@@ -47,17 +48,26 @@ describe("parseEventsCSV", () => {
     expect(parseEventsCSV(HEADER)).toEqual([]);
   });
 
-  it("skips a row missing month, day or title", () => {
+  it("skips a row missing month or title", () => {
+    // Day is deliberately NOT required here. It can legitimately live inside
+    // the Month cell ("10/1/2026"), so whether a row has a usable date is
+    // decided by the lifecycle, which knows what a date is. This reader only
+    // refuses what can never be an event: no month, or nothing to call it.
     const csv = [
       HEADER,
-      "NOVEMBER,,No day so it is not an event,,",
       ",14,No month,,",
       "NOVEMBER,14,,No title,",
       "NOVEMBER,14,Kept,,",
+      "NOVEMBER,,Kept for now; the lifecycle decides,,",
     ].join("\n");
     const rows = parseEventsCSV(csv);
+    expect(rows.map((r) => r.title)).toEqual(["Kept", "Kept for now; the lifecycle decides"]);
+  });
+
+  it("hands a dayless row on, and the lifecycle is the one that drops it", () => {
+    const rows = parseEventsCSV(`${HEADER}\nNOVEMBER,,No day,,`);
     expect(rows).toHaveLength(1);
-    expect(rows[0].title).toBe("Kept");
+    expect(classifyEvents(rows, new Date("2026-09-18T19:00:00Z"))).toHaveLength(0);
   });
 
   it("ignores the trailing blank rows every sheet carries", () => {

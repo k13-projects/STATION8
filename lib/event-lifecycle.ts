@@ -139,6 +139,84 @@ export function monthIndex(raw: string): number | null {
   return prefixed === -1 ? null : prefixed;
 }
 
+/**
+ * A whole date sitting in the Month cell.
+ *
+ * Kazim, 2026-09-18: "why not let them write as they like." The cell is headed
+ * Month, but people put a date in it, and Google Sheets makes that likelier
+ * than it sounds: type 10/1 into a cell and Sheets quietly converts it to a
+ * date value, which the published CSV then prints as 10/1/2026. The Day column
+ * beside it may be left empty, because as far as the person is concerned they
+ * already said which day.
+ *
+ * Handles 10/1/2026, 10-1-2026, 2026-10-01 and "Oct 1 2026". Day-first
+ * ordering like 1/10 for the first of October is deliberately NOT guessed:
+ * 1/10 and 10/1 are the same two numbers and picking wrong moves an event by
+ * months. US order is assumed, since every venue is in California, and
+ * anything ambiguous simply falls through to the ordinary Month plus Day path.
+ *
+ * Returns null when the cell is not a date, which is the ordinary case.
+ */
+export function dateInMonthCell(
+  raw: string,
+): { month: number; day: number; year: number | null } | null {
+  const t = String(raw ?? "").trim();
+  if (!t || !/[/\-\s]/.test(t)) return null;
+
+  // 2026-10-01, the shape a spreadsheet exports for an ISO date.
+  const iso = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (iso) {
+    const month = Number(iso[2]) - 1;
+    const day = Number(iso[3]);
+    /* iso[1] is present whenever the pattern matched. */
+    return month >= 0 && month <= 11 && day >= 1 && day <= 31
+      ? { month, day, year: Number(iso[1] ?? 0) }
+      : null;
+  }
+
+  // 10/1/2026 or 10-1-2026, and the same without a year.
+  const slashed = t.match(/^(\d{1,2})[/\-](\d{1,2})(?:[/\-](\d{2,4}))?$/);
+  if (slashed) {
+    const month = Number(slashed[1] ?? "") - 1;
+    const day = Number(slashed[2] ?? "");
+    if (month < 0 || month > 11 || day < 1 || day > 31) return null;
+    let year: number | null = null;
+    if (slashed[3]) {
+      const y = Number(slashed[3]);
+      year = slashed[3].length <= 2 ? 2000 + y : y;
+    }
+    return { month, day, year };
+  }
+
+  // "Oct 1", "October 1 2026", "1 October" is not accepted, see above.
+  const worded = t.match(/^([A-Za-z.]+)\s+(\d{1,2})(?:[,\s]+(\d{4}))?$/);
+  if (worded) {
+    const month = monthIndex(worded[1] ?? "");
+    const day = Number(worded[2] ?? "");
+    if (month === null || day < 1 || day > 31) return null;
+    return { month, day, year: worded[3] ? Number(worded[3]) : null };
+  }
+
+  return null;
+}
+
+/**
+ * The day, from a cell somebody typed by hand.
+ *
+ * Accepts 3, 03, " 3 " and the ordinals people write without thinking: 1st,
+ * 2nd, 3rd, 22nd. The legend used to have to tell Lorena not to write "3rd",
+ * which is a rule that exists only because the parser was fussy.
+ */
+export function dayNumber(raw: string): number | null {
+  const t = String(raw ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/(st|nd|rd|th)$/, "");
+  if (!/^\d{1,2}$/.test(t)) return null;
+  const n = Number(t);
+  return n >= 1 && n <= 31 ? n : null;
+}
+
 /** Today in the venue's time zone, as {year, month, day}. */
 function todayAtVenue(now: Date): { year: number; month: number; day: number } {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -177,11 +255,15 @@ export function classifyEvents(rows: EventItem[], now: Date = new Date()): Dated
   const dated: DatedEvent[] = [];
 
   for (const row of rows) {
-    const month = monthIndex(row.month);
-    const day = Number(String(row.day).trim());
-    if (month === null || !Number.isInteger(day) || day < 1 || day > 31) continue;
+    // A whole date in the Month cell wins: the person wrote the day there, so
+    // the Day column is not needed and, if it disagrees, is not trusted over
+    // the thing they typed as one piece.
+    const packed = dateInMonthCell(row.month);
+    const month = packed ? packed.month : monthIndex(row.month);
+    const day = packed ? packed.day : dayNumber(row.day);
+    if (month === null || day === null) continue;
 
-    const rawYear = String(row.year ?? "").trim();
+    const rawYear = packed?.year ? String(packed.year) : String(row.year ?? "").trim();
 
     let timestamp: number;
     if (rawYear) {

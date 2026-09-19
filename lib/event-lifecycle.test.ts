@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   classifyEvents,
+  dateInMonthCell,
+  dayNumber,
   monthIndex,
   NO_YEAR_LOOKAHEAD_DAYS,
   PAST_EVENT_GRACE_DAYS,
@@ -216,5 +218,77 @@ describe("classifyEvents", () => {
     expect(utcIsThe19th.getUTCDate()).toBe(19);
     const out = classifyEvents([ev("SEPTEMBER", "18", "Tonight")], utcIsThe19th);
     expect(out[0].state).toBe("upcoming");
+  });
+});
+
+/**
+ * "Why not let them write as they like" (Kazim, 2026-09-18). The sheet is
+ * typed by a person with no validation in front of them, so the parser has to
+ * meet them where they are. The rule that matters: be generous with anything
+ * unambiguous, and refuse rather than guess where a guess could move an event.
+ */
+describe("writing it however you like", () => {
+  const NOW2 = new Date("2026-09-18T19:00:00Z");
+  const row = (month: string, day = "", title = "An event") => ({
+    month,
+    day,
+    title,
+    description: "",
+    url: "",
+    year: "",
+  });
+
+  it("takes a whole date in the Month cell, with the Day column left empty", () => {
+    // What Google Sheets does on its own: type 10/1 into a cell and it stores
+    // a date, which the published CSV prints as 10/1/2026.
+    for (const typed of ["10/1/2026", "10-1-2026", "2026-10-01", "Oct 1 2026", "October 1, 2026"]) {
+      const out = classifyEvents([row(typed)], NOW2);
+      expect(out, typed).toHaveLength(1);
+      expect(out[0]!.monthLabel, typed).toBe("OCTOBER");
+      expect(new Date(out[0]!.timestamp).getUTCDate(), typed).toBe(1);
+      expect(new Date(out[0]!.timestamp).getUTCFullYear(), typed).toBe(2026);
+    }
+  });
+
+  it("takes a date with no year in the Month cell and infers it", () => {
+    const out = classifyEvents([row("10/1")], NOW2);
+    expect(out).toHaveLength(1);
+    expect(out[0]!.state).toBe("upcoming");
+  });
+
+  it("takes ordinals in the Day column, which people write without thinking", () => {
+    expect(dayNumber("1st")).toBe(1);
+    expect(dayNumber("2nd")).toBe(2);
+    expect(dayNumber("3rd")).toBe(3);
+    expect(dayNumber("22nd")).toBe(22);
+    expect(dayNumber(" 03 ")).toBe(3);
+    expect(classifyEvents([row("OCTOBER", "3rd")], NOW2)[0]!.monthLabel).toBe("OCTOBER");
+  });
+
+  it("refuses a day that is not a day", () => {
+    expect(dayNumber("")).toBeNull();
+    expect(dayNumber("the third")).toBeNull();
+    expect(dayNumber("0")).toBeNull();
+    expect(dayNumber("32")).toBeNull();
+  });
+
+  it("does not guess day-first dates, because guessing moves the event", () => {
+    // 1/10 could be 10 January or 1 October. It is read as January, the US
+    // order every one of these venues sits in, and never swapped on a hunch.
+    const out = classifyEvents([row("1/10")], new Date("2026-01-05T19:00:00Z"));
+    expect(out[0]!.monthLabel).toBe("JANUARY");
+    expect(new Date(out[0]!.timestamp).getUTCDate()).toBe(10);
+  });
+
+  it("leaves an ordinary Month cell alone", () => {
+    expect(dateInMonthCell("OCTOBER")).toBeNull();
+    expect(dateInMonthCell("10")).toBeNull();
+    expect(dateInMonthCell("")).toBeNull();
+  });
+
+  it("still refuses nonsense rather than inventing a date", () => {
+    expect(classifyEvents([row("13/45/2026")], NOW2)).toHaveLength(0);
+    expect(classifyEvents([row("not a date at all")], NOW2)).toHaveLength(0);
+    expect(classifyEvents([row("OCTOBER", "")], NOW2)).toHaveLength(0);
   });
 });
