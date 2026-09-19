@@ -36,6 +36,22 @@ describe("monthIndex", () => {
     expect(monthIndex("Dec.")).toBe(11);
   });
 
+  it("reads a month typed as a number, which is what the column invites", () => {
+    // The column is headed "Month", so 10 for October is a fair reading of it.
+    // Three real rows were lost to this on the day the STATION8 sheet went live.
+    expect(monthIndex("1")).toBe(0);
+    expect(monthIndex("01")).toBe(0);
+    expect(monthIndex("10")).toBe(9);
+    expect(monthIndex("12")).toBe(11);
+    expect(monthIndex(" 9 ")).toBe(8);
+  });
+
+  it("refuses a number that is not a month", () => {
+    expect(monthIndex("0")).toBeNull();
+    expect(monthIndex("13")).toBeNull();
+    expect(monthIndex("2026")).toBeNull();
+  });
+
   it("refuses what it cannot place, rather than guessing", () => {
     expect(monthIndex("")).toBeNull();
     expect(monthIndex("Smarch")).toBeNull();
@@ -166,6 +182,30 @@ describe("classifyEvents", () => {
       expect(classifyEvents([ev("FEBRUARY", "29", "Leap", "2028")], NOW)).toHaveLength(1);
       expect(classifyEvents([ev("FEBRUARY", "29", "Not leap", "2027")], NOW)).toHaveLength(0);
     });
+  });
+
+  it("places the rows the live STATION8 sheet actually contains", () => {
+    // 10/1, 11/2 and 12/3 as typed, with no Year: October, November and
+    // December of this year, all ahead of 18 September, all upcoming and in
+    // date order.
+    const rows = [ev("10", "1", "October one"), ev("11", "2", "November two"), ev("12", "3", "December three")];
+    const out = classifyEvents(rows, NOW);
+    expect(out.map((e) => [e.title, e.state])).toEqual([
+      ["October one", "upcoming"],
+      ["November two", "upcoming"],
+      ["December three", "upcoming"],
+    ]);
+    // And the card prints a month name, not the digits that were typed.
+    expect(out.map((e) => e.monthLabel)).toEqual(["OCTOBER", "NOVEMBER", "DECEMBER"]);
+  });
+
+  it("prints the same month label however it was typed", () => {
+    const rows = [ev("10", "1", "digits"), ev("Oct", "2", "short"), ev("OCTOBER", "3", "long")];
+    expect(classifyEvents(rows, NOW).map((e) => e.monthLabel)).toEqual([
+      "OCTOBER",
+      "OCTOBER",
+      "OCTOBER",
+    ]);
   });
 
   it("uses California's day, not the visitor's", () => {
