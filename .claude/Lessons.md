@@ -29,3 +29,31 @@ that is invisible to the client, to us, and to every test.
 **How to apply:** when the sheet is empty or unreachable, say so. Keep the section on the page,
 because the nav links to it, and give it a line that is true. Applies beyond events: any
 placeholder written to make a design reviewable is a liability the moment it ships.
+
+## Reach for the primitive that already exists (2026-09-18)
+
+**What happened.** The events empty state shipped with a follow button nobody could read: sand-stone
+text inside a 35% sand-stone border, on the olive ground. Its only legible state was hover. Kazim
+saw it on the live page and said so.
+
+**The cause is not colour choice.** `design-system/primitives/Button.tsx` already had `variant="primary"`:
+filled sand-stone, dark-bark text, a distinct hover to `--color-may`. Exactly the fix he asked for,
+sitting in the repo, already used by the Go Now button on the same page. The events button was
+written by hand as an `<a>` with ad-hoc classes, so it inherited none of it and drifted immediately.
+
+**How to apply.** Before styling a control, look for the primitive. A hand-rolled one starts life
+slightly different and gets further away with every change, and the difference is invisible to
+tests because nothing is broken, only wrong. The same evening, Global Fork's footer had
+`https://instagram.com/` hardcoded instead of reading `siteConfig`, so it stayed broken even after
+the handle was set: the identical mistake in a different costume.
+
+## A control whose only readable state is hover is not readable (2026-09-18)
+
+Ghost buttons, a faint outline in the text colour at 25 to 35 percent, look refined in a mock and
+disappear on a real screen at real brightness. Hover does not rescue them: it does not exist on a
+phone, and on a desktop it requires the visitor to find the thing first.
+
+**How to apply.** Default state carries the contrast. If a design wants a quiet control, make it
+quiet with size or weight, not by draining the contrast out of it. When a button needs a hover,
+hover should be a *change*, not the moment the button appears. Kazim's own instruction, and the
+clearest statement of it: "use the hover state as default and find a different hover state."
